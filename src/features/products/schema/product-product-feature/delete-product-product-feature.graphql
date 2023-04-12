@@ -1,0 +1,5 @@
+mutation DeleteProductProductFeature($deleteProductProductFeatureId: BUFFER!) {
+  deleteProductProductFeature(id: $deleteProductProductFeatureId) {
+    idProductProductFeature
+  }
+}

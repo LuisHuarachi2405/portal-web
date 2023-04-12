@@ -1,0 +1,10 @@
+query getAllUserRoles {
+  getAllUserRoles {
+    idUser
+    idOu
+    idRole
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

@@ -1,0 +1,16 @@
+query GetBankAccountsByIdOu($idOu: BUFFER!) {
+  getBankAccountsByIdOu(idOu: $idOu) {
+    idBankAccount
+    idOu
+    idCurrency
+    idBankAccountType
+    idEntity
+    idUserCreate
+    idUserUpdate
+    idStatus
+    number
+    interbankNumber
+    createdAt
+    updatedAt
+  }
+}

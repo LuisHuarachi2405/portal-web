@@ -1,0 +1,5 @@
+mutation createModulePermission($createModulePermission: CreateModulePermissionInput!) {
+  createModulePermission(createModulePermissionInput: $createModulePermission) {
+    ...modulePermissionFragment
+  }
+}

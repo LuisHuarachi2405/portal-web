@@ -8,7 +8,7 @@ const entityDirectionValuesSchema = zod.object({
   line1: zod.string().min(1, {
     message: 'pages.entities.form.errors.address.required',
   }),
-  line2: zod.string().min(1).optional(),
+  line2: zod.string({ required_error: 'pages.entities.form.errors.address.required' }).optional(),
   idState: zod.string().min(1, {
     message: 'pages.entities.form.errors.address.required',
   }),
@@ -52,10 +52,10 @@ const entitySchema = zod.object({
   entityType: zod.string().min(1, {
     message: 'pages.entities.form.errors.entityType.required',
   }),
-  role: zod.string().min(1, {
+  role: zod.array(zod.custom()).min(1, {
     message: 'pages.entities.form.errors.role.required',
   }),
-  idEntityIdType: entityIdTypeValueSchema,
+  idEntityIdType: zod.array(entityIdTypeValueSchema),
   entityDirectionValues: zod.array(entityDirectionValuesSchema),
   entityContactValues: zod.array(entityContactValuesSchema),
   market: zod

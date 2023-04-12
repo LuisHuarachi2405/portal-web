@@ -1,0 +1,5 @@
+mutation updateOu($data: UpdateOuInput!) {
+  updateOu(data: $data) {
+    ...organizationalUnitsFields
+  }
+}

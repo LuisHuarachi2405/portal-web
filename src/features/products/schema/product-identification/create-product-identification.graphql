@@ -1,0 +1,7 @@
+mutation CreateProductIdentification(
+  $createProductIdentificationInput: CreateProductIdentificationInput!
+) {
+  createProductIdentification(createProductIdentificationInput: $createProductIdentificationInput) {
+    idProductIdentification
+  }
+}

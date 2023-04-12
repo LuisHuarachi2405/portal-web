@@ -1,15 +1,16 @@
 schema: ${NEXT_PUBLIC_API_URL}
 generates:
-  ./src/shared/graphql/generated/products-api.tsx:
-    documents: ./src/features/products/**/*.graphql
-    plugins:
-      - typescript
-      - typescript-operations
-      - typescript-react-apollo
-    config:
-      withHooks: true
-  # ./src/shared/graphql/generated/general-parameters-api.tsx:
-  #   documents: ./src/features/general-parameters/**/*.graphql
+  # ./src/shared/graphql/generated/products-api.tsx:
+  #   documents: ./src/features/products/schema/**/*.graphql
+  #   plugins:
+  #     - typescript
+  #     - typescript-operations
+  #     - typescript-react-apollo
+  #   config:
+  #     withHooks: true
+
+  # ./src/shared/graphql/generated/reservations-api.tsx:
+  #   documents: ./src/features/reservations/schema/**/*.graphql
   #   plugins:
   #     - typescript
   #     - typescript-operations
@@ -18,7 +19,6 @@ generates:
   #     withHooks: true
 
   # ./src/shared/graphql/generated/general-parameters-api.tsx:
-  #   schema: ${GENERAL_PARAMETERS_API_URL}
   #   documents: ./src/features/general-parameters/**/*.graphql
   #   plugins:
   #     - typescript
@@ -35,3 +35,21 @@ generates:
   #     - typescript-react-apollo
   #   config:
   #     withHooks: true
+
+  # ./src/shared/graphql/generated/users-api.tsx:
+  #   documents: ./src/features/users/**/*.graphql
+  #   plugins:
+  #     - typescript
+  #     - typescript-operations
+  #     - typescript-react-apollo
+  #   config:
+  #     withHooks: true
+
+  ./src/shared/graphql/generated/payments-api.tsx:
+    documents: ./src/features/payments/**/*.graphql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true

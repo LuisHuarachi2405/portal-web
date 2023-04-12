@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as zod from 'zod'
+import { z as zod } from 'zod'
 
 const generalParametersValuesSchema = zod.object({
   idGeneralParameterValue: zod.string().optional(),
@@ -32,8 +32,8 @@ const generalParametersSchema = zod.object({
     .string()
     .min(3, { message: 'pages.general.parameters.form.errors.code.value.required' })
     .max(14),
-  parentParameter: zod.object({ label: zod.string(), value: zod.string().min(1) }).optional(),
+  parentParameter: zod.object({ label: zod.string(), value: zod.string() }).optional().nullable(),
   generalParametersValues: zod.array(generalParametersValuesSchema),
 })
 
-export const generalParametersResolver = zodResolver(generalParametersSchema)
+export const generalParametersFormResolver = zodResolver(generalParametersSchema)

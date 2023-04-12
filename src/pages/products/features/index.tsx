@@ -1,24 +1,21 @@
 import { NextPage } from 'next'
-import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-import { Box } from '@mui/material'
+import { Suspense } from 'react'
 
 import { Spinner } from '@/shared/components/spinner'
 
 const ProductFeaturesTable = dynamic(
   () =>
-    import('@/features/products/components/product-features-table').then((module) => ({
+    import('@/features/products/components/features/product-features-table').then((module) => ({
       default: module.ProductFeaturesTable,
     })),
   { suspense: true }
 )
 
 const FeaturesPage: NextPage = () => (
-  <Box>
-    <Suspense fallback={<Spinner />}>
-      <ProductFeaturesTable />
-    </Suspense>
-  </Box>
+  <Suspense fallback={<Spinner />}>
+    <ProductFeaturesTable />
+  </Suspense>
 )
 
 export default FeaturesPage

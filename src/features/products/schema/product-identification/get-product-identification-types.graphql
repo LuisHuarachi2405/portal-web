@@ -1,0 +1,10 @@
+query GetProductIdentificationTypes {
+  getGeneralParametersByCode(code: "PROIDE") {
+    idGeneralParameter
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      name
+    }
+  }
+}

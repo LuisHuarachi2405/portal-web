@@ -12,3 +12,42 @@ body {
 #__next {
   min-height: 100vh;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.react-tel-input .form-control {
+  background-color: transparent !important;
+  width: 100% !important;
+}
+
+.react-tel-input .special-label {
+  opacity: 1 !important;
+  background: white !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-size: 10px !important;
+  font-family: Montserrat, sans-serif !important;
+  font-weight: 400 !important;
+  line-height: 1.4375em !important;
+  padding: 0 !important;
+  position: relative !important;
+  display: block !important;
+  transform-origin: top left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: calc(133% - 24px) !important;
+  position: absolute !important;
+  left: 12px !important;
+}
+.react-tel-input .form-control {
+  font-family: Montserrat, sans-serif !important;
+  font-size: 13px !important;
+  border-color: rgba(0, 0, 0, 0.23) !important;
+}
+
+.react-tel-input .form-control.invalid-number {
+  border: 1px solid #f44336 !important;
+}

@@ -1,0 +1,5 @@
+query getModulePermissionById($idModule: BUFFER!, $idPermission: BUFFER!) {
+  getModulePermissionById(idModule: $idModule, idPermission: $idPermission) {
+    ...modulePermissionFullFragment
+  }
+}

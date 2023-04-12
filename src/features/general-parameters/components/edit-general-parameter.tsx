@@ -7,6 +7,7 @@ import {
   useGetGeneralParameterByIdQuery,
   useGetGeneralParameterValueByIdQuery,
 } from '@/shared/graphql/generated/general-parameters-api'
+import { ErrorBoundary } from '@/shared/components/error-boundary'
 
 import { GeneralParameterValueParent } from '../types/form.types'
 
@@ -25,25 +26,38 @@ export const EditGeneralParameterContent: FC = () => {
     query: { paramId },
   } = useRouter()
 
-  const { data, loading, error } = useGetGeneralParameterByIdQuery({
+  const {
+    data: generalParameterData,
+    loading: generalParameterLoading,
+    error: generalParameterError,
+    refetch: generalParameterRefetch,
+  } = useGetGeneralParameterByIdQuery({
     variables: { id: paramId },
     fetchPolicy: 'cache-and-network',
     skip: !paramId,
   })
 
-  const generalParameterValueParentId = data?.getGeneralParameterById?.idGeneralParameterValue
+  const generalParameterValueParentId =
+    generalParameterData?.getGeneralParameterById?.idGeneralParameterValue
 
-  const { data: generalParameterValueData, loading: generalParameterValueLoading } =
-    useGetGeneralParameterValueByIdQuery({
-      variables: { idGeneralParameterValue: generalParameterValueParentId },
-      skip: !generalParameterValueParentId,
-    })
+  const {
+    data: generalParameterValueData,
+    loading: generalParameterValueLoading,
+    error: generalParameterValueError,
+    refetch: generalParameterValueRefetch,
+  } = useGetGeneralParameterValueByIdQuery({
+    variables: { idGeneralParameterValue: generalParameterValueParentId },
+    skip: !generalParameterValueParentId,
+  })
 
   const parentParameter = useMemo(
-    () => ({
-      label: `${generalParameterValueData?.getGeneralParameterValueById.name} - ${generalParameterValueData?.getGeneralParameterValueById.code}`,
-      value: generalParameterValueData?.getGeneralParameterValueById.idGeneralParameterValue,
-    }),
+    () =>
+      generalParameterValueData?.getGeneralParameterValueById.idGeneralParameterValue
+        ? {
+            label: `${generalParameterValueData?.getGeneralParameterValueById.name} - ${generalParameterValueData?.getGeneralParameterValueById.code}`,
+            value: generalParameterValueData?.getGeneralParameterValueById.idGeneralParameterValue,
+          }
+        : null,
     [
       generalParameterValueData?.getGeneralParameterValueById.idGeneralParameterValue,
       generalParameterValueData?.getGeneralParameterValueById.name,
@@ -51,29 +65,41 @@ export const EditGeneralParameterContent: FC = () => {
     ]
   ) as GeneralParameterValueParent
 
-  if (error) return <p>Error</p>
+  if (generalParameterError || generalParameterValueError)
+    return (
+      <ErrorBoundary
+        retry={() => {
+          generalParameterRefetch()
+          generalParameterValueRefetch()
+        }}
+      />
+    )
 
-  if (!data || loading || generalParameterValueLoading) return <Spinner />
+  if (!generalParameterData || generalParameterLoading || generalParameterValueLoading)
+    return <Spinner />
 
   return (
     <Suspense fallback={<Spinner />}>
       <DynamicGeneralParametersForm
         isEditing
         prevValues={{
-          idGeneralParameter: data.getGeneralParameterById.idGeneralParameter,
-          idOu: data.getGeneralParameterById.idOu,
-          name: data.getGeneralParameterById.name,
-          shortName: data.getGeneralParameterById.shortName,
-          code: data.getGeneralParameterById.code,
+          idGeneralParameter: generalParameterData.getGeneralParameterById.idGeneralParameter,
+          idOu: generalParameterData.getGeneralParameterById.idOu,
+          name: generalParameterData.getGeneralParameterById.name,
+          shortName: generalParameterData.getGeneralParameterById.shortName,
+          code: generalParameterData.getGeneralParameterById.code,
           parentParameter,
-          generalParametersValues: data?.getGeneralParameterById.generalParameterValue?.length
-            ? data?.getGeneralParameterById.generalParameterValue?.map((generalParameterValue) => ({
-                idGeneralParameterValue: generalParameterValue.idGeneralParameterValue,
-                name: generalParameterValue.name,
-                shortName: generalParameterValue.shortName,
-                code: generalParameterValue.code,
-                value: generalParameterValue.value,
-              }))
+          generalParametersValues: generalParameterData?.getGeneralParameterById
+            .generalParameterValue?.length
+            ? generalParameterData?.getGeneralParameterById.generalParameterValue?.map(
+                (generalParameterValue) => ({
+                  idGeneralParameterValue: generalParameterValue.idGeneralParameterValue,
+                  name: generalParameterValue.name,
+                  shortName: generalParameterValue.shortName,
+                  code: generalParameterValue.code,
+                  value: generalParameterValue.value,
+                })
+              )
             : [
                 {
                   idGeneralParameterValue: undefined,

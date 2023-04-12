@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 
 export const EmptyTableOverlay: FC = () => (
   <StyledGridOverlay>
-    <StyledNoDataImage />
+    <NoDataImage />
     <Box sx={{ mt: 1 }}>No Rows</Box>
   </StyledGridOverlay>
 )
@@ -45,9 +45,7 @@ const StyledGridOverlay = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-`
 
-const StyledNoDataImage = styled(NoDataImage)`
   & .ant-empty-img-1 {
     fill: #aeb8c2;
   }
@@ -61,7 +59,7 @@ const StyledNoDataImage = styled(NoDataImage)`
     fill: #fff;
   }
   & .ant-empty-img-5 {
-    fill-opacity: 0.8;
+    fill-opacity: '0.8';
     fill: #f5f5f5;
   }
 `

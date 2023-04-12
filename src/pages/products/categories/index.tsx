@@ -1,24 +1,21 @@
 import { NextPage } from 'next'
-import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
-import { Box } from '@mui/material'
+import { Suspense } from 'react'
 
 import { Spinner } from '@/shared/components/spinner'
 
 const ProductCategoriesTable = dynamic(
   () =>
-    import('@/features/products/components/product-categories-table').then((module) => ({
+    import('@/features/products/components/categories/product-categories-table').then((module) => ({
       default: module.ProductCategoriesTable,
     })),
   { suspense: true }
 )
 
 const CategoriesPage: NextPage = () => (
-  <Box>
-    <Suspense fallback={<Spinner />}>
-      <ProductCategoriesTable />
-    </Suspense>
-  </Box>
+  <Suspense fallback={<Spinner />}>
+    <ProductCategoriesTable />
+  </Suspense>
 )
 
 export default CategoriesPage

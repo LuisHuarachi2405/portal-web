@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { IntlProvider } from 'react-intl'
+import 'react-phone-input-2/lib/material.css'
 
 import { Layout } from '@/shared/components/layout'
 import english from '@/shared/languages/en.json'
@@ -18,6 +19,7 @@ import { useApollo } from '@/shared/libs/apollo-client'
 import { createEmotionCache } from '@/shared/libs/emotion-cache'
 import '@/shared/styles/globals.scss'
 import { theme } from '@/shared/styles/theme'
+import AuthProvider from '@/shared/contexts/auth/auth-provider'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -51,17 +53,28 @@ export default function MyApp(props: MyAppProps) {
       <Head>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <ApolloProvider client={apolloClient}>
-        <IntlProvider locale={shortLocale} messages={messages}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Toaster />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-        </IntlProvider>
-      </ApolloProvider>
+      <AuthProvider>
+        <ApolloProvider client={apolloClient}>
+          <IntlProvider locale={shortLocale} messages={messages}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Toaster />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </IntlProvider>
+        </ApolloProvider>
+      </AuthProvider>
     </CacheProvider>
   )
 }
+
+// export const getInitialProps = async ({ req }) => {
+//   if (req) {
+//     const userData = localStorage.getItem('user-data-storage')
+//     const user = userData ? JSON.parse(userData) : null
+//     const token = user.accessToken.jwtToken
+
+//   }
+// }

@@ -1,0 +1,9 @@
+.phone-input {
+  :global {
+    .react-tel-input {
+      .form-control {
+        padding: 9px 56px !important;
+      }
+    }
+  }
+}

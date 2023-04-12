@@ -1,0 +1,15 @@
+query getUserById($userId: BUFFER!) {
+  getUserById(id: $userId) {
+    idUser
+    idEntity
+    idOu
+    idUserOauth
+    idUserType
+    name
+    userName
+    email
+    phone
+    createdAt
+    updatedAt
+  }
+}

@@ -1,0 +1,13 @@
+query reservationRepoDocuments($idReservation: BUFFER!) {
+  reservationRepoDocuments(idReservation: $idReservation) {
+    idRepoDocument
+    idReservation
+    name
+    idOu
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

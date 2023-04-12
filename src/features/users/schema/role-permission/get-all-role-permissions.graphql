@@ -1,0 +1,5 @@
+query getAllRolePermissions {
+  getAllRolePermission {
+    ...rolePermissionFullFragment
+  }
+}

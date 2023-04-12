@@ -1,0 +1,15 @@
+query GetRateFeatures {
+  getRateFeatures {
+    idRateFeature
+    idOu
+    code
+    name
+    shortName
+    idRateFeatureType
+    idProductCategory
+    idUserCreate
+    createdAt
+    idUserUpdate
+    updatedAt
+  }
+}

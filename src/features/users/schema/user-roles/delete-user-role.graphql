@@ -1,0 +1,10 @@
+mutation deleteUserRole($data: DeleteUserRoleDto!) {
+  deleteUserRole(data: $data) {
+    idUser
+    idOu
+    idRole
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

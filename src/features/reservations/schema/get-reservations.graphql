@@ -1,0 +1,103 @@
+query Reservations($idEntity: BUFFER!, $skip: Float!, $take: Float!) {
+  reservations(idEntity: $idEntity, skip: $skip, take: $take) {
+    data {
+      idReservation
+      idOu
+      idEntity
+      code
+      file
+      note
+      entryDate
+      idReservationType
+      passengersQuantity
+      idContact
+      totalPriceUSD
+      totalPricePEN
+      totalPayedUSD
+      totalPayedPEN
+      idStatus
+      idUserCreate
+      createdAt
+      idUserUpdate
+      updatedAt
+      reservationItem {
+        idReservationItem
+        idOu
+        idReservation
+        item
+        dateStart
+        dateEnd
+        idProduct
+        product {
+          idProduct
+          idOu
+          code
+          barCode
+          name
+          shortName
+          idEntitySupplier
+          inventoryFlag
+          unitSunat
+          internationalCodeSunat
+          productTypeSunat
+          operationalCodeSunat
+        }
+        idProductInstance
+        productInstance {
+          idProductInstance
+          idOu
+          idProduct
+        }
+        idRate
+        rate {
+          idRate
+          idOu
+          idRateType
+          code
+          description
+        }
+        idRateInstance
+        rateInstance {
+          idRateInstance
+          idOu
+          idRate
+          startDate
+          endDate
+          idProduct
+          idProductInstance
+          idEntity
+          idChannel
+          idMarket
+          idBusiness
+          taxesPercentage
+          purchasePrice1
+          profitPercentage1
+          profitAmount1
+          sellingValue1
+          taxesAmount1
+          sellingPrice1
+          purchasePrice2
+          profitPercentage2
+          profitAmount2
+          sellingValue2
+          taxesAmount2
+          sellingPrice2
+          idRelatedRateInstance
+        }
+        unitPriceUSD
+        unitPricePEN
+        quantity
+        totalPriceUSD
+        totalPricePEN
+        totalPayedUSD
+        totalPayedPEN
+        idStatus
+        idUserCreate
+        createdAt
+        idUserUpdate
+        updatedAt
+      }
+    }
+    count
+  }
+}

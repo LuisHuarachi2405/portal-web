@@ -1,10 +1,10 @@
 import { useFieldArray, useForm } from 'react-hook-form'
 
 import { FormDataGeneralParameters } from '../types/form.types'
-import { generalParametersResolver } from '../utils/general-parameters-form-resolver'
+import { generalParametersFormResolver } from '../utils/general-parameters-form-resolver'
 
 export const defaultValues: FormDataGeneralParameters = {
-  idGeneralParameter: undefined,
+  idGeneralParameter: '',
   name: '',
   shortName: '',
   code: '',
@@ -28,7 +28,7 @@ export type UseGeneralParameterFormExtraProps = {
 export const useGeneralParametersForm = ({ prevValues }: UseGeneralParameterFormExtraProps) => {
   const generalParametersForm = useForm<FormDataGeneralParameters>({
     defaultValues: prevValues || defaultValues,
-    resolver: generalParametersResolver,
+    resolver: generalParametersFormResolver,
     mode: 'onSubmit',
   })
 

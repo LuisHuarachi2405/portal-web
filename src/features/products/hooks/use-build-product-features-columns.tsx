@@ -1,14 +1,9 @@
 import { GridColDef } from '@mui/x-data-grid'
 
-import { ProductFeaturesTableActions } from '../components/product-features-table-actions'
+import { ProductFeaturesTableActions } from '../components/features/product-features-table-actions'
 
 export const useBuildProductFeaturesColumns = () => {
   const columns: GridColDef[] = [
-    {
-      field: 'idProductFeature',
-      headerName: 'ID',
-      flex: 1,
-    },
     {
       field: 'name',
       headerName: 'Name',
@@ -20,12 +15,12 @@ export const useBuildProductFeaturesColumns = () => {
       flex: 1,
     },
     {
-      field: 'idProductCategory',
+      field: 'categoryName',
       headerName: 'Product Category',
       flex: 1,
     },
     {
-      field: 'idProductFeatureType',
+      field: 'featureTypeName',
       headerName: 'Feature Type',
       flex: 1,
     },

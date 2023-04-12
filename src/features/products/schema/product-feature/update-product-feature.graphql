@@ -1,0 +1,5 @@
+mutation UpdateProductFeature($updateProductFeatureInput: UpdateProductFeatureInput!) {
+  updateProductFeature(updateProductFeatureInput: $updateProductFeatureInput) {
+    idProductFeature
+  }
+}

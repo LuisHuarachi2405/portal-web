@@ -1,0 +1,30 @@
+query GetcashierTransactionReservationItemsByParams($idCashierTransaction: BUFFER!) {
+  getcashierTransactionReservationItemsByParams(idCashierTransaction: $idCashierTransaction) {
+    idDailyCashier
+    idCashierTransaction
+    idReservation
+    idReservationItem
+    idDocument
+    idDocumentItem
+    idOu
+    idCurrency1
+    idcurrency2
+    idCurrency3
+    idStatus
+    idUserCreate
+    idUserUpdate
+    amount1
+    credit1
+    debit1
+    exchangeRate1
+    amount2
+    credit2
+    debit2
+    exchangerate2
+    amount3
+    credit3
+    debit3
+    exchangeRate3
+    createdAt
+  }
+}

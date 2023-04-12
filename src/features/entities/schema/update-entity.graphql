@@ -1,4 +1,4 @@
-mutation UpdateEntity($updateEntityInput: UpdateEntityInput!) {
+mutation updateEntity($updateEntityInput: UpdateEntityInput!) {
   updateEntity(updateEntityInput: $updateEntityInput) {
     result {
       idEntity

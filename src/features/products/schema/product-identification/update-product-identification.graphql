@@ -1,0 +1,7 @@
+mutation UpdateProductIdentification(
+  $updateProductIdentificationInput: UpdateProductIdentificationInput!
+) {
+  updateProductIdentification(updateProductIdentificationInput: $updateProductIdentificationInput) {
+    idProductIdentification
+  }
+}

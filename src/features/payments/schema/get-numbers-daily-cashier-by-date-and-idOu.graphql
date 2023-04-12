@@ -1,0 +1,5 @@
+query GetNumbersDailyCashierByDateAndIdOu($idOu: BUFFER!, $date: DateTime!) {
+  getNumbersDailyCashierByDateAndIdOu(idOu: $idOu, date: $date) {
+    _count
+  }
+}

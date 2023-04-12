@@ -1,0 +1,10 @@
+query getUserRolesByUserId($idUser: BUFFER!) {
+  getUserRolesByUserId(idUser: $idUser) {
+    idUser
+    idOu
+    idRole
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

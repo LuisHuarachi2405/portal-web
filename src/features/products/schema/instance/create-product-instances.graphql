@@ -1,0 +1,5 @@
+mutation CreateProductInstances($createProductInstanceInput: CreateProductInstanceInput!) {
+  createProductInstance(createProductInstanceInput: $createProductInstanceInput) {
+    idProductInstance
+  }
+}

@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Box, Button, Container, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import styled from '@emotion/styled'
 import Link from 'next/link'
@@ -10,18 +10,9 @@ import { ViewLayout } from '@/shared/components/view-layout'
 import { DataTable } from '@/shared/components/data-table/data-table'
 import { useIntl } from '@/shared/hooks/use-intl'
 import { useGetEntitiesQuery } from '@/shared/graphql/generated/entities-api'
+import { ErrorBoundary } from '@/shared/components/error-boundary'
 
 import { useBuildColumns } from '../hooks/use-build-columns'
-
-const itemsBreadCrumb: BreadcrumbItems[] = [
-  { name: 'pages.entities.create.entity.breadcrumb.home.pathname', href: paths.home },
-  { name: 'pages.entities.create.entity.breadcrumb.entities.pathname', href: paths.entities.root },
-]
-
-interface BreadcrumbItems {
-  name: string
-  href: string
-}
 
 export const EntitiesTable: FC = () => {
   const intl = useIntl()
@@ -31,7 +22,7 @@ export const EntitiesTable: FC = () => {
 
   const handleOnPageChange = (page: number) => setDataGridEntitiesPageSize(page)
 
-  const { data, loading, error } = useGetEntitiesQuery({
+  const { data, loading, error, refetch } = useGetEntitiesQuery({
     variables: {
       filter: {
         page: 1,
@@ -40,48 +31,52 @@ export const EntitiesTable: FC = () => {
     fetchPolicy: 'cache-and-network',
   })
 
-  if (error) return <p>Error</p>
+  if (error) return <ErrorBoundary retry={refetch} />
 
   const rows = data?.getEntities.results ?? []
 
   return (
     <ViewLayout>
-      <Container maxWidth="xl">
-        <HeaderContainer>
-          <Box>
-            <Typography variant="h5" gutterBottom>
-              {intl.formatMessage('pages.entity.title')}
-            </Typography>
-            <BreadCrumb items={itemsBreadCrumb} />
-          </Box>
-          <Link href={paths.entities.create} passHref>
-            <Button color="primary" variant="contained" startIcon={<Add />}>
-              {intl.formatMessage('pages.entity.label.create')}
-            </Button>
-          </Link>
-        </HeaderContainer>
-      </Container>
+      <HeaderContainer>
+        <Box display="flex" flexDirection="column" gap="16px">
+          <Typography variant="h5" fontWeight={700}>
+            {intl.formatMessage('pages.entity.title')}
+          </Typography>
 
-      <Container maxWidth="xl">
-        <Box mt="32px">
-          <DataTable
-            pageSize={dataGridEntitiesPageSize}
-            onPageChange={handleOnPageChange}
-            loading={loading}
-            columns={columns}
-            rows={rows}
-            getRowId={(row) => row.idEntity}
+          <BreadCrumb
+            items={[
+              { name: 'pages.entities.create.entity.breadcrumb.home.pathname', href: paths.home },
+              {
+                name: 'pages.entities.create.entity.breadcrumb.entities.pathname',
+                href: paths.entities.root,
+              },
+            ]}
           />
         </Box>
-      </Container>
+
+        <Link href={paths.entities.new} passHref>
+          <Button color="primary" variant="contained" size="small" startIcon={<Add />}>
+            {intl.formatMessage('pages.entity.label.create')}
+          </Button>
+        </Link>
+      </HeaderContainer>
+
+      <DataTable
+        pageSize={dataGridEntitiesPageSize}
+        onPageChange={handleOnPageChange}
+        loading={loading}
+        columns={columns}
+        rows={rows}
+        getRowId={(row) => row.idEntity}
+      />
     </ViewLayout>
   )
 }
 
 const HeaderContainer = styled(Box)`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  margin-bottom: 32px;
 `

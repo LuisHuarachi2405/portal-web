@@ -1,0 +1,5 @@
+mutation UpdateModulePermission($updateModulePermissionInput: UpdateModulePermissionInput!) {
+  updateModulePermission(updateModulePermissionInput: $updateModulePermissionInput) {
+    ...modulePermissionFragment
+  }
+}

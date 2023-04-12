@@ -1,0 +1,5 @@
+mutation createRolePermission($createRolePermissionInput: CreateRolePermissionInput!) {
+  createRolePermission(createRolePermissionInput: $createRolePermissionInput) {
+    ...rolePermissionFragment
+  }
+}

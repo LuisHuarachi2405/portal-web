@@ -9,7 +9,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 import { Add, Delete, Save } from '@mui/icons-material'
-import { Controller, useFieldArray } from 'react-hook-form'
+import { Controller, FormProvider, useFieldArray } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import styled from '@emotion/styled'
 import debounce from 'lodash/debounce'
@@ -21,11 +21,14 @@ import { BreadCrumb } from '@/shared/components/breadcrumb'
 import { useIntl } from '@/shared/hooks/use-intl'
 import { paths } from '@/shared/routes/paths'
 import {
+  EntityIdentificationTypeCreateEntityInput,
   useCreateEntityMutation,
   useUpdateEntityMutation,
 } from '@/shared/graphql/generated/entities-api'
-import { useGetGeneralParametersQuery } from '@/shared/graphql/generated/general-parameters-api'
+import { useGetGeneralParametersByCodeArrayQuery } from '@/shared/graphql/generated/general-parameters-api'
 import { Spinner } from '@/shared/components/spinner'
+
+import { EntityInputsAddress } from './entities-inputs-address'
 
 import { defaultValues, useEntityForm, UseEntityFormExtraProps } from '../hooks/use-entity-form'
 import { FormDataEntity } from '../types/form.types'
@@ -75,14 +78,16 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
     },
   })
 
+  const methods = useEntityForm({
+    prevValues,
+  })
+
   const {
     control,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useEntityForm({
-    prevValues,
-  })
+  } = methods
 
   const watchRoleValue = watch('role')
 
@@ -103,6 +108,24 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
     control,
     name: 'entityContactValues',
   })
+
+  const {
+    fields: entityIdentifyValuesFields,
+    append: appendIdentify,
+    remove: removeIdentify,
+  } = useFieldArray({
+    control,
+    name: 'idEntityIdType',
+  })
+
+  const addIdentifyValues = () => {
+    appendIdentify({ ...defaultValues.idEntityIdType![0] })
+  }
+
+  const deleteIdentifyValues = (event: MouseEvent<HTMLButtonElement>) => {
+    const index = Number(event.currentTarget.dataset.index)
+    removeIdentify(index)
+  }
 
   const addDirectionValues = () => {
     appendDirection({ ...defaultValues.entityDirectionValues![0] })
@@ -136,14 +159,12 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
               idChannel: data.channel,
               idIndustry: data.industry,
               idMarket: data.market,
-              idRole: data.role,
+              roles: data!.role!.map((rol: string) => ({ idRole: rol })),
               idTypeEntity: data.entityType,
-              idsIdentificationTypes: [
-                {
-                  idEntityIdentificationType: data.idEntityIdType!.idEntityIdType,
-                  value: data.idEntityIdType!.value!,
-                },
-              ],
+              idsIdentificationTypes: data.idEntityIdType?.map((idEntityIdType) => ({
+                idEntityIdentificationType: idEntityIdType.idEntityIdType,
+                value: idEntityIdType.value,
+              })),
               addresses: data.entityDirectionValues,
               contacts: data.entityContactValues,
             },
@@ -166,20 +187,14 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
             idChannel: data.channel,
             idIndustry: data.industry,
             idMarket: data.market,
-            idRole: data.role,
+            roles: data!.role!.map((rol: string) => ({ idRole: rol })),
             idTypeEntity: data.entityType,
-            idsIdentificationTypes: [
-              {
-                idEntityIdentificationType: data.idEntityIdType!.idEntityIdType,
-                value: data.idEntityIdType!.value!,
-              },
-            ],
-            addresses: data.entityDirectionValues!.map((address) => ({
-              ...address,
-            })),
-            contacts: data.entityContactValues!.map((contact) => ({
-              ...contact,
-            })),
+            idsIdentificationTypes: data.idEntityIdType?.map((idEntityIdType) => ({
+              idEntityIdentificationType: idEntityIdType.idEntityIdType,
+              value: idEntityIdType.value,
+            })) as unknown as EntityIdentificationTypeCreateEntityInput[],
+            addresses: data.entityDirectionValues!,
+            contacts: data.entityContactValues!,
           },
         },
       })
@@ -197,7 +212,10 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
 
   const items = useBuildBreadcrumbItems(isEditing)
 
-  const { data, loading, error } = useGetGeneralParametersQuery({
+  const { data, loading, error } = useGetGeneralParametersByCodeArrayQuery({
+    variables: {
+      codes: codeGeneralParameters.map((code) => code.code),
+    },
     fetchPolicy: 'cache-and-network',
   })
 
@@ -207,7 +225,7 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
 
   const DataGeneralParameters: Record<string, []> = {}
 
-  data?.generalParameters.forEach((generalParameter) => {
+  data?.getGeneralParametersByCodeArray.forEach((generalParameter) => {
     let propertyName = ''
 
     codeGeneralParameters.forEach((code) => {
@@ -221,644 +239,412 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
 
   return (
     <ViewLayout>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <HeaderLayout>
-          <HeaderTitleRegisterEntity>
-            <Box display="flex" gap="10px" flexDirection="column">
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <HeaderLayout>
+            <Box display="flex" flexDirection="column" gap="16px">
               <Typography variant="h5" fontWeight={700}>
                 {isEditing
                   ? intl.formatMessage('pages.entity.edit.title')
                   : intl.formatMessage('pages.entity.label.create')}
               </Typography>
+
               <BreadCrumb items={items} />
             </Box>
-            <Box>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                type="submit"
-                startIcon={<Save />}
-                disabled={updateEntityLoading || createEntityLoading}
-              >
-                Save
-              </Button>
-              {(createEntityLoading || updateEntityLoading) && (
-                <CircularProgress
-                  size={24}
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    marginTop: '-12px',
-                    marginLeft: '-12px',
-                  }}
-                />
-              )}
-            </Box>
-          </HeaderTitleRegisterEntity>
 
-          <HeaderFiltersRegisterEntity>
-            <Controller
-              name="entityType"
-              control={control}
-              render={({ field }) => (
-                <Box width="100%" maxWidth={250}>
-                  <TextField
-                    {...field}
-                    label={intl.formatMessage(
-                      'pages.entities.create.entity.form.entityType.field.label'
-                    )}
-                    variant="outlined"
-                    error={!!errors.entityType}
-                    size="small"
-                    select
-                    sx={{ marginBottom: '8px' }}
-                    helperText={
-                      errors.entityType?.message && intl.formatMessage(errors.entityType.message)
-                    }
-                    fullWidth
-                  >
-                    {DataGeneralParameters.entityType.map(
-                      (value: { name: string; idGeneralParameterValue: string }) => (
-                        <MenuItem
-                          key={value.idGeneralParameterValue}
-                          value={value.idGeneralParameterValue}
-                        >
-                          {value.name}
-                        </MenuItem>
-                      )
-                    )}
-                  </TextField>
-                </Box>
-              )}
-            />
-
-            <Controller
-              name="role"
-              control={control}
-              render={({ field }) => (
-                <Box width="100%" maxWidth={250}>
-                  <TextField
-                    {...field}
-                    label={intl.formatMessage('pages.entities.create.entity.form.role.field.label')}
-                    variant="outlined"
-                    error={!!errors.entityType}
-                    size="small"
-                    select
-                    sx={{ marginBottom: '8px' }}
-                    helperText={errors.role?.message && intl.formatMessage(errors.role.message)}
-                    fullWidth
-                  >
-                    {DataGeneralParameters.role.map(
-                      (value: { name: string; idGeneralParameterValue: string }) => (
-                        <MenuItem
-                          key={value.idGeneralParameterValue}
-                          value={value.idGeneralParameterValue}
-                        >
-                          {value.name}
-                        </MenuItem>
-                      )
-                    )}
-                  </TextField>
-                </Box>
-              )}
-            />
-          </HeaderFiltersRegisterEntity>
-        </HeaderLayout>
-
-        <Box display="flex" flexDirection="column" gap="32px">
-          <CardContainer header="pages.entities.create.entity.basicInformation.title">
-            <Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }} gap="32px">
-              <Controller
-                name="name"
-                control={control}
-                render={({ field }) => (
-                  <Box width="100%">
-                    <TextField
-                      {...field}
-                      label={intl.formatMessage(
-                        'pages.entities.create.entity.form.name.field.label'
-                      )}
-                      variant="outlined"
-                      error={!!errors.name}
-                      size="small"
-                      sx={{ marginBottom: '8px' }}
-                      helperText={errors.name?.message && intl.formatMessage(errors.name.message)}
-                      fullWidth
-                    />
-                  </Box>
-                )}
-              />
-
-              <Controller
-                name="commercialName"
-                control={control}
-                render={({ field }) => (
-                  <Box width="100%">
-                    <TextField
-                      {...field}
-                      label={intl.formatMessage(
-                        'pages.entities.create.entity.form.name.commercial.field.label'
-                      )}
-                      variant="outlined"
-                      error={!!errors.commercialName}
-                      size="small"
-                      sx={{ marginBottom: '8px' }}
-                      helperText={
-                        errors.commercialName?.message &&
-                        intl.formatMessage(errors.commercialName.message)
-                      }
-                      fullWidth
-                    />
-                  </Box>
-                )}
-              />
-
-              <Controller
-                name="idEntityIdType.idEntityIdType"
-                control={control}
-                render={({ field }) => (
-                  <Box width="100%">
-                    <TextField
-                      {...field}
-                      label={intl.formatMessage(
-                        'pages.entities.create.entity.form.identityType.field.label'
-                      )}
-                      variant="outlined"
-                      error={!!errors.idEntityIdType?.idEntityIdType}
-                      size="small"
-                      select
-                      sx={{ marginBottom: '8px' }}
-                      helperText={
-                        errors.idEntityIdType?.idEntityIdType?.message &&
-                        intl.formatMessage(errors.idEntityIdType.idEntityIdType.message)
-                      }
-                      fullWidth
-                    >
-                      {DataGeneralParameters.identifyType.map(
-                        (value: { name: string; idGeneralParameterValue: string }) => (
-                          <MenuItem
-                            key={value.idGeneralParameterValue}
-                            value={value.idGeneralParameterValue}
-                          >
-                            {value.name}
-                          </MenuItem>
-                        )
-                      )}
-                    </TextField>
-                  </Box>
-                )}
-              />
-
-              <Controller
-                name="idEntityIdType.value"
-                control={control}
-                render={({ field }) => (
-                  <Box width="100%">
-                    <TextField
-                      {...field}
-                      label={intl.formatMessage(
-                        'pages.entities.create.entity.form.identifyNumber.field.label'
-                      )}
-                      variant="outlined"
-                      error={!!errors.idEntityIdType?.value}
-                      size="small"
-                      sx={{ marginBottom: '8px' }}
-                      helperText={
-                        errors.idEntityIdType?.value?.message &&
-                        intl.formatMessage(errors.idEntityIdType?.value?.message!)
-                      }
-                      fullWidth
-                    />
-                  </Box>
-                )}
-              />
-            </Box>
-          </CardContainer>
-
-          <CardContainer header="pages.entities.create.entity.address.title">
-            {entityDirectionValuesFields.map((item, index) => (
-              <div key={item.id}>
-                <GridLayout>
-                  <Controller
-                    name={`entityDirectionValues.${index}.idAddressType`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          id="entity-type-contact"
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.directionType.array.field.label'
-                          )}
-                          select
-                          variant="outlined"
-                          error={!!errors.entityDirectionValues?.[index]?.idAddressType}
-                          size="small"
-                          helperText={
-                            errors.entityDirectionValues?.[index]?.idAddressType?.message &&
-                            intl.formatMessage(
-                              errors.entityDirectionValues?.[index]?.idAddressType
-                                ?.message as string
-                            )
-                          }
-                          sx={{ marginBottom: '8px' }}
-                          fullWidth
-                        >
-                          {DataGeneralParameters.directionType.map(
-                            (value: { name: string; idGeneralParameterValue: string }) => (
-                              <MenuItem
-                                key={value.idGeneralParameterValue}
-                                value={value.idGeneralParameterValue}
-                              >
-                                {value.name}
-                              </MenuItem>
-                            )
-                          )}
-                        </TextField>
-                      </Box>
-                    )}
-                  />
-
-                  <Controller
-                    name={`entityDirectionValues.${index}.line1`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.direction.array.field.label'
-                          )}
-                          variant="outlined"
-                          error={!!errors.entityDirectionValues?.[index]?.line1}
-                          size="small"
-                          sx={{ marginBottom: '8px' }}
-                          helperText={
-                            errors.entityDirectionValues?.[index]?.line1?.message &&
-                            intl.formatMessage(
-                              errors.entityDirectionValues?.[index]?.line1?.message!
-                            )
-                          }
-                          fullWidth
-                        />
-                      </Box>
-                    )}
-                  />
-
-                  <Controller
-                    name={`entityDirectionValues.${index}.line2`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.direction.array.field.label'
-                          )}
-                          variant="outlined"
-                          error={!!errors.entityDirectionValues?.[index]?.line2}
-                          size="small"
-                          placeholder="Direction Optional"
-                          sx={{ marginBottom: '8px' }}
-                          helperText={
-                            errors.entityDirectionValues?.[index]?.line2?.message &&
-                            intl.formatMessage(
-                              errors.entityDirectionValues?.[index]?.line2?.message!
-                            )
-                          }
-                          fullWidth
-                        />
-                      </Box>
-                    )}
-                  />
-
-                  <Controller
-                    name={`entityDirectionValues.${index}.idState`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          id="entity-type-contact"
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.state.array.field.label'
-                          )}
-                          select
-                          variant="outlined"
-                          error={!!errors.entityDirectionValues?.[index]?.idState}
-                          size="small"
-                          helperText={
-                            errors.entityDirectionValues?.[index]?.idState &&
-                            intl.formatMessage(
-                              errors.entityDirectionValues?.[index]?.idState?.message as string
-                            )
-                          }
-                          sx={{ marginBottom: '8px' }}
-                          fullWidth
-                        >
-                          {DataGeneralParameters.state.map(
-                            (value: { name: string; idGeneralParameterValue: string }) => (
-                              <MenuItem
-                                key={value.idGeneralParameterValue}
-                                value={value.idGeneralParameterValue}
-                              >
-                                {value.name}
-                              </MenuItem>
-                            )
-                          )}
-                        </TextField>
-                      </Box>
-                    )}
-                  />
-
-                  <Controller
-                    name={`entityDirectionValues.${index}.idProvince`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          id="entity-country"
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.city.array.field.label'
-                          )}
-                          select
-                          variant="outlined"
-                          error={!!errors.entityDirectionValues?.[index]?.idProvince}
-                          size="small"
-                          helperText={
-                            errors.entityDirectionValues?.[index]?.idProvince?.message &&
-                            intl.formatMessage(
-                              errors.entityDirectionValues?.[index]?.idProvince?.message as string
-                            )
-                          }
-                          sx={{ marginBottom: '8px' }}
-                          fullWidth
-                        >
-                          {DataGeneralParameters.province.map(
-                            (value: { name: string; idGeneralParameterValue: string }) => (
-                              <MenuItem
-                                key={value.idGeneralParameterValue}
-                                value={value.idGeneralParameterValue}
-                              >
-                                {value.name}
-                              </MenuItem>
-                            )
-                          )}
-                        </TextField>
-                      </Box>
-                    )}
-                  />
-
-                  <Controller
-                    name={`entityDirectionValues.${index}.idCountry`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          id="entity-country"
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.country.array.field.label'
-                          )}
-                          select
-                          variant="outlined"
-                          error={!!errors.entityDirectionValues?.[index]?.idCountry}
-                          size="small"
-                          helperText={
-                            errors.entityDirectionValues?.[index]?.idCountry?.message &&
-                            intl.formatMessage(
-                              errors.entityDirectionValues?.[index]?.idCountry?.message as string
-                            )
-                          }
-                          sx={{ marginBottom: '8px' }}
-                          fullWidth
-                        >
-                          {DataGeneralParameters.country.map(
-                            (value: { name: string; idGeneralParameterValue: string }) => (
-                              <MenuItem
-                                key={value.idGeneralParameterValue}
-                                value={value.idGeneralParameterValue}
-                              >
-                                {value.name}
-                              </MenuItem>
-                            )
-                          )}
-                        </TextField>
-                      </Box>
-                    )}
-                  />
-
-                  <Controller
-                    name={`entityDirectionValues.${index}.postalCode`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.postal.array.field.label'
-                          )}
-                          variant="outlined"
-                          error={!!errors.entityDirectionValues?.[index]?.postalCode}
-                          size="small"
-                          sx={{ marginBottom: '8px' }}
-                          helperText={
-                            errors.entityDirectionValues?.[index]?.postalCode?.message &&
-                            intl.formatMessage(
-                              errors.entityDirectionValues?.[index]?.postalCode?.message!
-                            )
-                          }
-                          fullWidth
-                        />
-                      </Box>
-                    )}
-                  />
-
-                  <Box>
-                    <TextField hidden type="hidden" variant="standard" />
-                  </Box>
-
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="flex-end"
-                    minWidth="124px"
-                  >
-                    {entityDirectionValuesFields.length - 1 === index && (
-                      <IconButton color="primary" onClick={addDirectionValues}>
-                        <Add />
-                      </IconButton>
-                    )}
-                    {entityDirectionValuesFields.length > 1 && (
-                      <IconButton data-index={index} onClick={deleteDirectionValues}>
-                        <Delete />
-                      </IconButton>
-                    )}
-                  </Box>
-                </GridLayout>
-              </div>
-            ))}
-          </CardContainer>
-
-          <CardContainer header="pages.entities.create.entity.contacts.title">
-            {entityContactValuesFields.map((item, index) => (
-              <div key={item.id}>
-                <Box
-                  display="flex"
-                  sx={{ flexDirection: { xs: 'column', md: 'row' }, marginBottom: '10px' }}
-                  gap="32px"
+            <Box marginTop={isEditing ? '16px' : '0px'}>
+              <Box sx={{ m: 1, position: 'relative' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  type="submit"
+                  startIcon={<Save />}
+                  disabled={updateEntityLoading || createEntityLoading}
                 >
-                  <Controller
-                    name={`entityContactValues.${index}.idContactType`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          id="entity-type-contact"
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.contactType.array.field.label'
-                          )}
-                          select
-                          variant="outlined"
-                          error={!!errors.entityContactValues?.[index]?.idContactType}
-                          size="small"
-                          helperText={
-                            errors.entityContactValues?.[index]?.idContactType?.message &&
-                            intl.formatMessage(
-                              errors.entityContactValues?.[index]?.idContactType?.message as string
-                            )
-                          }
-                          sx={{ marginBottom: '8px' }}
-                          fullWidth
-                        >
-                          {DataGeneralParameters.contactType.map(
-                            (value: { name: string; idGeneralParameterValue: string }) => (
-                              <MenuItem
-                                key={value.idGeneralParameterValue}
-                                value={value.idGeneralParameterValue}
-                              >
-                                {value.name}
-                              </MenuItem>
-                            )
-                          )}
-                        </TextField>
-                      </Box>
-                    )}
+                  {intl.formatMessage(
+                    'pages.general.parameters.create.parameter.form.save.button.name'
+                  )}
+                </Button>
+                {(createEntityLoading || updateEntityLoading) && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
                   />
-
-                  <Controller
-                    name={`entityContactValues.${index}.value`}
-                    control={control}
-                    render={({ field }) => (
-                      <Box width="100%">
-                        <TextField
-                          {...field}
-                          label={intl.formatMessage(
-                            'pages.entities.create.entity.form.contactValue.array.field.label'
-                          )}
-                          variant="outlined"
-                          error={!!errors.entityContactValues?.[index]?.value}
-                          size="small"
-                          helperText={
-                            errors.entityContactValues?.[index]?.value?.message &&
-                            intl.formatMessage(
-                              errors.entityContactValues?.[index]?.value?.message as string
-                            )
-                          }
-                          sx={{ marginBottom: '8px' }}
-                          fullWidth
-                        />
-                      </Box>
-                    )}
-                  />
-
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="flex-end"
-                    minWidth="124px"
-                  >
-                    {entityContactValuesFields.length - 1 === index && (
-                      <IconButton color="primary" onClick={addContactValues}>
-                        <Add />
-                      </IconButton>
-                    )}
-                    {entityContactValuesFields.length > 1 && (
-                      <IconButton data-index={index} onClick={deleteContactValues}>
-                        <Delete />
-                      </IconButton>
-                    )}
-                  </Box>
-                </Box>
-              </div>
-            ))}
-          </CardContainer>
-
-          <CardContainer header="pages.entities.create.entity.info.title">
-            <Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }} gap="32px">
-              <Controller
-                name="market"
-                control={control}
-                render={({ field }) => (
-                  <Box width="100%">
-                    <TextField
-                      {...field}
-                      id="entity-market"
-                      label={intl.formatMessage(
-                        'pages.entities.create.entity.form.market.field.label'
-                      )}
-                      select
-                      variant="outlined"
-                      error={!!errors.market}
-                      size="small"
-                      helperText={
-                        errors.market && intl.formatMessage(errors.market.message as string)
-                      }
-                      sx={{ marginBottom: '8px' }}
-                      fullWidth
-                    >
-                      {DataGeneralParameters.market.map(
-                        (value: { name: string; idGeneralParameterValue: string }) => (
-                          <MenuItem
-                            key={value.idGeneralParameterValue}
-                            value={value.idGeneralParameterValue}
-                          >
-                            {value.name}
-                          </MenuItem>
-                        )
-                      )}
-                    </TextField>
-                  </Box>
                 )}
-              />
+              </Box>
+            </Box>
+          </HeaderLayout>
 
-              {watchRoleValue === '457df57c4aa511edb6071615a0c060f5' && (
+          <Box display="flex" flexDirection="column" gap="32px">
+            <CardContainer header="pages.entities.create.entity.info.title">
+              <Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }} gap="32px">
                 <Controller
-                  name="channel"
+                  name="entityType"
+                  control={control}
+                  render={({ field }) => (
+                    <Box width="100%" sx={{ maxWidth: { xs: '100%', md: '250px' } }}>
+                      <TextField
+                        {...field}
+                        label={intl.formatMessage(
+                          'pages.entities.create.entity.form.entityType.field.label'
+                        )}
+                        variant="outlined"
+                        error={!!errors.entityType}
+                        size="small"
+                        select
+                        sx={{ marginBottom: '8px' }}
+                        helperText={
+                          errors.entityType?.message &&
+                          intl.formatMessage(errors.entityType.message)
+                        }
+                        fullWidth
+                      >
+                        {DataGeneralParameters.entityType.map(
+                          (value: { name: string; idGeneralParameterValue: string }) => (
+                            <MenuItem
+                              key={value.idGeneralParameterValue}
+                              value={value.idGeneralParameterValue}
+                            >
+                              {value.name}
+                            </MenuItem>
+                          )
+                        )}
+                      </TextField>
+                    </Box>
+                  )}
+                />
+
+                <Controller
+                  name="role"
+                  control={control}
+                  render={({ field }) => (
+                    <Box width="100%" sx={{ maxWidth: { xs: '100%', md: '250px' } }}>
+                      <TextField
+                        {...field}
+                        label={intl.formatMessage(
+                          'pages.entities.create.entity.form.role.field.label'
+                        )}
+                        error={!!errors.role}
+                        variant="outlined"
+                        size="small"
+                        select
+                        sx={{ marginBottom: '8px' }}
+                        helperText={errors.role?.message && intl.formatMessage(errors.role.message)}
+                        fullWidth
+                        SelectProps={{
+                          multiple: true,
+                          value: field.value,
+                          onChange: (e) => {
+                            field.onChange(e.target.value)
+                          },
+                        }}
+                      >
+                        {DataGeneralParameters.role.map(
+                          (value: { name: string; idGeneralParameterValue: string }) => (
+                            <MenuItem
+                              key={value.idGeneralParameterValue}
+                              value={value.idGeneralParameterValue}
+                            >
+                              {value.name}
+                            </MenuItem>
+                          )
+                        )}
+                      </TextField>
+                    </Box>
+                  )}
+                />
+              </Box>
+            </CardContainer>
+
+            <CardContainer header="pages.entities.create.entity.basicInformation.title">
+              <Box display="flex" sx={{ flexDirection: { xs: 'column', lg: 'row' } }} gap="32px">
+                <Controller
+                  name="name"
                   control={control}
                   render={({ field }) => (
                     <Box width="100%">
                       <TextField
                         {...field}
+                        label={intl.formatMessage(
+                          'pages.entities.create.entity.form.name.field.label'
+                        )}
+                        variant="outlined"
+                        error={!!errors.name}
+                        size="small"
+                        sx={{ marginBottom: '8px' }}
+                        helperText={errors.name?.message && intl.formatMessage(errors.name.message)}
+                        fullWidth
+                      />
+                    </Box>
+                  )}
+                />
+
+                <Controller
+                  name="commercialName"
+                  control={control}
+                  render={({ field }) => (
+                    <Box width="100%">
+                      <TextField
+                        {...field}
+                        label={intl.formatMessage(
+                          'pages.entities.create.entity.form.name.commercial.field.label'
+                        )}
+                        variant="outlined"
+                        error={!!errors.commercialName}
+                        size="small"
+                        sx={{ marginBottom: '8px' }}
+                        helperText={
+                          errors.commercialName?.message &&
+                          intl.formatMessage(errors.commercialName.message)
+                        }
+                        fullWidth
+                      />
+                    </Box>
+                  )}
+                />
+              </Box>
+            </CardContainer>
+
+            <CardContainer header="pages.entities.create.entity.identify.title">
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                {entityIdentifyValuesFields.map((item, index) => (
+                  <Box
+                    key={item.id}
+                    display="flex"
+                    sx={{ flexDirection: { xs: 'column', md: 'row' }, marginBottom: '10px' }}
+                    gap="32px"
+                  >
+                    <Controller
+                      name={`idEntityIdType.${index}.idEntityIdType`}
+                      control={control}
+                      render={({ field }) => (
+                        <Box width="100%">
+                          <TextField
+                            {...field}
+                            label={intl.formatMessage(
+                              'pages.entities.create.entity.form.identityType.field.label'
+                            )}
+                            variant="outlined"
+                            error={!!errors.idEntityIdType?.[index]?.idEntityIdType}
+                            size="small"
+                            select
+                            sx={{ marginBottom: '8px' }}
+                            helperText={
+                              errors.idEntityIdType?.[index]?.idEntityIdType?.message &&
+                              intl.formatMessage(
+                                errors.idEntityIdType?.[index]?.idEntityIdType?.message as string
+                              )
+                            }
+                            fullWidth
+                          >
+                            {DataGeneralParameters.identifyType.map(
+                              (value: { name: string; idGeneralParameterValue: string }) => (
+                                <MenuItem
+                                  key={value.idGeneralParameterValue}
+                                  value={value.idGeneralParameterValue}
+                                >
+                                  {value.name}
+                                </MenuItem>
+                              )
+                            )}
+                          </TextField>
+                        </Box>
+                      )}
+                    />
+
+                    <Controller
+                      name={`idEntityIdType.${index}.value`}
+                      control={control}
+                      render={({ field }) => (
+                        <Box width="100%">
+                          <TextField
+                            {...field}
+                            label={intl.formatMessage(
+                              'pages.entities.create.entity.form.identifyNumber.field.label'
+                            )}
+                            variant="outlined"
+                            error={!!errors.idEntityIdType?.[index]?.value}
+                            size="small"
+                            sx={{ marginBottom: '8px' }}
+                            helperText={
+                              errors.idEntityIdType?.[index]?.value?.message &&
+                              intl.formatMessage(
+                                errors.idEntityIdType?.[index]?.value?.message as string
+                              )
+                            }
+                            fullWidth
+                          />
+                        </Box>
+                      )}
+                    />
+
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="flex-end"
+                      minWidth="124px"
+                    >
+                      {entityIdentifyValuesFields.length - 1 === index && (
+                        <IconButton color="primary" onClick={addIdentifyValues}>
+                          <Add />
+                        </IconButton>
+                      )}
+                      {entityIdentifyValuesFields.length > 1 && (
+                        <IconButton data-index={index} onClick={deleteIdentifyValues}>
+                          <Delete />
+                        </IconButton>
+                      )}
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </CardContainer>
+
+            <CardContainer header="pages.entities.create.entity.address.title">
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                {entityDirectionValuesFields.map((item, index) => (
+                  <EntityInputsAddress
+                    index={index}
+                    key={item.id}
+                    item={item}
+                    addDirectionValues={addDirectionValues}
+                    deleteDirectionValues={deleteDirectionValues}
+                    DataGeneralParameters={DataGeneralParameters}
+                    isEditing={!!isEditing}
+                    entityDirectionValuesFieldsLength={entityDirectionValuesFields.length}
+                  />
+                ))}
+              </Box>
+            </CardContainer>
+
+            <CardContainer header="pages.entities.create.entity.contacts.title">
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                {entityContactValuesFields.map((item, index) => (
+                  <Box
+                    key={item.id}
+                    display="flex"
+                    sx={{ flexDirection: { xs: 'column', md: 'row' }, marginBottom: '10px' }}
+                    gap="32px"
+                  >
+                    <Controller
+                      name={`entityContactValues.${index}.idContactType`}
+                      control={control}
+                      render={({ field }) => (
+                        <Box width="100%">
+                          <TextField
+                            {...field}
+                            id="entity-type-contact"
+                            label={intl.formatMessage(
+                              'pages.entities.create.entity.form.contactType.array.field.label'
+                            )}
+                            select
+                            variant="outlined"
+                            error={!!errors.entityContactValues?.[index]?.idContactType}
+                            size="small"
+                            helperText={
+                              errors.entityContactValues?.[index]?.idContactType?.message &&
+                              intl.formatMessage(
+                                errors.entityContactValues?.[index]?.idContactType
+                                  ?.message as string
+                              )
+                            }
+                            sx={{ marginBottom: '8px' }}
+                            fullWidth
+                          >
+                            {DataGeneralParameters.contactType.map(
+                              (value: { name: string; idGeneralParameterValue: string }) => (
+                                <MenuItem
+                                  key={value.idGeneralParameterValue}
+                                  value={value.idGeneralParameterValue}
+                                >
+                                  {value.name}
+                                </MenuItem>
+                              )
+                            )}
+                          </TextField>
+                        </Box>
+                      )}
+                    />
+
+                    <Controller
+                      name={`entityContactValues.${index}.value`}
+                      control={control}
+                      render={({ field }) => (
+                        <Box width="100%">
+                          <TextField
+                            {...field}
+                            label={intl.formatMessage(
+                              'pages.entities.create.entity.form.contactValue.array.field.label'
+                            )}
+                            variant="outlined"
+                            error={!!errors.entityContactValues?.[index]?.value}
+                            size="small"
+                            helperText={
+                              errors.entityContactValues?.[index]?.value?.message &&
+                              intl.formatMessage(
+                                errors.entityContactValues?.[index]?.value?.message as string
+                              )
+                            }
+                            sx={{ marginBottom: '8px' }}
+                            fullWidth
+                          />
+                        </Box>
+                      )}
+                    />
+
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="flex-end"
+                      minWidth="124px"
+                    >
+                      {entityContactValuesFields.length - 1 === index && (
+                        <IconButton color="primary" onClick={addContactValues}>
+                          <Add />
+                        </IconButton>
+                      )}
+                      {entityContactValuesFields.length > 1 && (
+                        <IconButton data-index={index} onClick={deleteContactValues}>
+                          <Delete />
+                        </IconButton>
+                      )}
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </CardContainer>
+
+            <CardContainer header="pages.entities.create.entity.info.title">
+              <Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }} gap="32px">
+                <Controller
+                  name="market"
+                  control={control}
+                  render={({ field }) => (
+                    <Box width="100%" sx={{ maxWidth: { xs: '100%', md: '250px' } }}>
+                      <TextField
+                        {...field}
                         id="entity-market"
                         label={intl.formatMessage(
-                          'pages.entities.create.entity.form.channel.field.label'
+                          'pages.entities.create.entity.form.market.field.label'
                         )}
                         select
                         variant="outlined"
-                        error={!!errors.channel}
-                        helperText={
-                          errors.channel && intl.formatMessage(errors.channel.message as string)
-                        }
+                        error={!!errors.market}
                         size="small"
+                        helperText={
+                          errors.market && intl.formatMessage(errors.market.message as string)
+                        }
                         sx={{ marginBottom: '8px' }}
                         fullWidth
                       >
-                        {DataGeneralParameters.channel.map(
+                        {DataGeneralParameters.market.map(
                           (value: { name: string; idGeneralParameterValue: string }) => (
                             <MenuItem
                               key={value.idGeneralParameterValue}
@@ -872,35 +658,109 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
                     </Box>
                   )}
                 />
-              )}
-            </Box>
-          </CardContainer>
 
-          <CardContainer header="pages.entities.create.entity.info.title">
-            <Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }} gap="32px">
-              {watchRoleValue !== '457df57c4aa511edb6071615a0c060f5' && (
+                {watchRoleValue!.find((rol) => rol === '457df1d64aa511edb6071615a0c060f5') && (
+                  <Controller
+                    name="channel"
+                    control={control}
+                    render={({ field }) => (
+                      <Box width="100%" sx={{ maxWidth: { xs: '100%', md: '250px' } }}>
+                        <TextField
+                          {...field}
+                          label={intl.formatMessage(
+                            'pages.entities.create.entity.form.channel.field.label'
+                          )}
+                          select
+                          variant="outlined"
+                          error={!!errors.channel}
+                          helperText={
+                            errors.channel && intl.formatMessage(errors.channel.message as string)
+                          }
+                          size="small"
+                          sx={{ marginBottom: '8px' }}
+                          fullWidth
+                        >
+                          {DataGeneralParameters.channel.map(
+                            (value: { name: string; idGeneralParameterValue: string }) => (
+                              <MenuItem
+                                key={value.idGeneralParameterValue}
+                                value={value.idGeneralParameterValue}
+                              >
+                                {value.name}
+                              </MenuItem>
+                            )
+                          )}
+                        </TextField>
+                      </Box>
+                    )}
+                  />
+                )}
+              </Box>
+            </CardContainer>
+
+            <CardContainer header="pages.entities.create.entity.info.title">
+              <Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }} gap="32px">
+                {watchRoleValue!.find((rol) => rol === '457df57c4aa511edb6071615a0c060f5') && (
+                  <Controller
+                    name="industry"
+                    control={control}
+                    render={({ field }) => (
+                      <Box width="100%" sx={{ maxWidth: { xs: '100%', md: '250px' } }}>
+                        <TextField
+                          {...field}
+                          id="entity-type-contact"
+                          label={intl.formatMessage(
+                            'pages.entities.create.entity.form.sector.field.label'
+                          )}
+                          variant="outlined"
+                          error={!!errors.industry}
+                          size="small"
+                          select
+                          sx={{ marginBottom: '8px' }}
+                          helperText={
+                            errors.industry?.message && intl.formatMessage(errors.industry.message)
+                          }
+                          fullWidth
+                        >
+                          {DataGeneralParameters.industry.map(
+                            (value: { name: string; idGeneralParameterValue: string }) => (
+                              <MenuItem
+                                key={value.idGeneralParameterValue}
+                                value={value.idGeneralParameterValue}
+                              >
+                                {value.name}
+                              </MenuItem>
+                            )
+                          )}
+                        </TextField>
+                      </Box>
+                    )}
+                  />
+                )}
+
                 <Controller
-                  name="industry"
+                  name="businessType"
                   control={control}
                   render={({ field }) => (
-                    <Box width="30%">
+                    <Box width="100%" sx={{ maxWidth: { xs: '100%', md: '250px' } }}>
                       <TextField
                         {...field}
                         id="entity-type-contact"
                         label={intl.formatMessage(
-                          'pages.entities.create.entity.form.sector.field.label'
+                          'pages.entities.create.entity.form.businessType.field.label'
                         )}
                         variant="outlined"
-                        error={!!errors.industry}
+                        error={!!errors.businessType}
                         size="small"
                         select
                         sx={{ marginBottom: '8px' }}
                         helperText={
-                          errors.industry?.message && intl.formatMessage(errors.industry.message)
+                          errors.businessType?.message &&
+                          intl.formatMessage(errors.businessType.message)
                         }
                         fullWidth
                       >
-                        {DataGeneralParameters.industry.map(
+                        {DataGeneralParameters.businessType.map(
                           (value: { name: string; idGeneralParameterValue: string }) => (
                             <MenuItem
                               key={value.idGeneralParameterValue}
@@ -914,75 +774,22 @@ export const EntityForm: FC<EntityFormProps> = (props) => {
                     </Box>
                   )}
                 />
-              )}
-
-              <Controller
-                name="businessType"
-                control={control}
-                render={({ field }) => (
-                  <Box width="30%">
-                    <TextField
-                      {...field}
-                      id="entity-type-contact"
-                      label={intl.formatMessage(
-                        'pages.entities.create.entity.form.businessType.field.label'
-                      )}
-                      variant="outlined"
-                      error={!!errors.businessType}
-                      size="small"
-                      select
-                      sx={{ marginBottom: '8px' }}
-                      helperText={
-                        errors.businessType?.message &&
-                        intl.formatMessage(errors.businessType.message)
-                      }
-                      fullWidth
-                    >
-                      {DataGeneralParameters.businessType.map(
-                        (value: { name: string; idGeneralParameterValue: string }) => (
-                          <MenuItem
-                            key={value.idGeneralParameterValue}
-                            value={value.idGeneralParameterValue}
-                          >
-                            {value.name}
-                          </MenuItem>
-                        )
-                      )}
-                    </TextField>
-                  </Box>
-                )}
-              />
-            </Box>
-          </CardContainer>
-        </Box>
-      </form>
+              </Box>
+            </CardContainer>
+          </Box>
+        </form>
+      </FormProvider>
     </ViewLayout>
   )
 }
 
-const HeaderTitleRegisterEntity = styled(Box)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
-
-const HeaderFiltersRegisterEntity = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  gap: 15px;
-`
-
 const HeaderLayout = styled(Box)`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 24px;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 32px;
-`
-
-const GridLayout = styled(Box)`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
 `
 
 export default EntityForm

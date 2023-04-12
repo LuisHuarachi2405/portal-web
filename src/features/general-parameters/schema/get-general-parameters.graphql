@@ -1,5 +1,8 @@
-query getGeneralParameters {
-  generalParameters {
-    ...generalParameterFields
+query getGeneralParameters($generalParameterQueryInput: GeneralParameterQueryInput!) {
+  generalParameters(generalParameterQueryInput: $generalParameterQueryInput) {
+    data {
+      ...generalParameterFields
+    }
+    count
   }
 }

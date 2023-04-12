@@ -1,0 +1,108 @@
+query FindProductsForReservation($searchInput: ReservationSearchInput!) {
+  findForReservations(searchInput: $searchInput) {
+    count
+    data {
+      balance
+      date
+      idInventory
+      productInstance {
+        idProductInstance
+        product {
+          idProduct
+          code
+          name
+          feature1: product_ProductFeature_product_idProductFeature0Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature2: product_ProductFeature_product_idProductFeature1Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature3: product_ProductFeature_product_idProductFeature2Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature4: product_ProductFeature_product_idProductFeature3Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature5: product_ProductFeature_product_idProductFeature4Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature6: product_ProductFeature_product_idProductFeature5Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature7: product_ProductFeature_product_idProductFeature6Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature8: product_ProductFeature_product_idProductFeature7Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature9: product_ProductFeature_product_idProductFeature8Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+          feature10: product_ProductFeature_product_idProductFeature9Toproduct_ProductFeature {
+            value
+            productFeature {
+              name
+            }
+          }
+        }
+        subfeatureItem1: productSubFeatureItem_productInstance_idProductSubFeatureItem1ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem2: productSubFeatureItem_productInstance_idProductSubFeatureItem2ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem3: productSubFeatureItem_productInstance_idProductSubFeatureItem3ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem4: productSubFeatureItem_productInstance_idProductSubFeatureItem4ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem5: productSubFeatureItem_productInstance_idProductSubFeatureItem5ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem6: productSubFeatureItem_productInstance_idProductSubFeatureItem6ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem7: productSubFeatureItem_productInstance_idProductSubFeatureItem7ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem8: productSubFeatureItem_productInstance_idProductSubFeatureItem8ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem9: productSubFeatureItem_productInstance_idProductSubFeatureItem9ToproductSubFeatureItem {
+          name
+        }
+        subfeatureItem10: productSubFeatureItem_productInstance_idProductSubFeatureItem10ToproductSubFeatureItem {
+          name
+        }
+      }
+    }
+  }
+}

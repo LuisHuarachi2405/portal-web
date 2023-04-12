@@ -1,0 +1,15 @@
+query GetDailyCashierOpenByIdOuAndDate($idOu: BUFFER!, $date: DateTime!) {
+  getDailyCashierOpenByIdOuAndDate(idOu: $idOu, date: $date) {
+    idDailyCashier
+    idOu
+    idUser
+    idDailyCashierType
+    idStatus
+    idUserCreate
+    idUserUpdate
+    date
+    note
+    createdAt
+    updatedAt
+  }
+}

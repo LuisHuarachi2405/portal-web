@@ -1,0 +1,25 @@
+fragment organizationalUnitsFields on Ou {
+  idOu
+  code
+  name
+  shortName
+  idEntity
+  idStatus
+  idUserCreate
+  idUserUpdate
+  createdAt
+  updatedAt
+  users {
+    idUser
+    idEntity
+    idOu
+    idUserOauth
+    idUserType
+    name
+    userName
+    email
+    phone
+    createdAt
+    updatedAt
+  }
+}

@@ -1,0 +1,17 @@
+mutation updateReservationRepoDocument(
+  $updateReservationRepoDocumentInput: UpdateReservationRepoDocumentInput!
+) {
+  updateReservationRepoDocument(
+    updateReservationRepoDocumentInput: $updateReservationRepoDocumentInput
+  ) {
+    idRepoDocument
+    idReservation
+    name
+    idOu
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

@@ -6,9 +6,9 @@ import { entityResolver } from '../utils/entity-resolver'
 export const defaultValues: FormDataEntity = {
   idEntity: '',
   entityType: '',
-  role: '',
+  role: [],
   name: '',
-  idEntityIdType: { idEntityIdType: '', value: '' },
+  idEntityIdType: [{ idEntityIdType: '', value: '' }],
   entityDirectionValues: [
     {
       idAddressType: '',

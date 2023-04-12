@@ -1,0 +1,10 @@
+query GetProductIdentifications($idProduct: BUFFER!) {
+  productIdentifications(idProduct: $idProduct) {
+    idProductIdentification
+    idProduct
+    idProductIdentificationType
+    productIdentificationType
+    value
+    productName
+  }
+}

@@ -1,0 +1,14 @@
+query GetRatesByProduct($idProduct: BUFFER!, $idProductInstance: BUFFER!) {
+  getRatesByProduct(idProduct: $idProduct, idProductInstance: $idProductInstance) {
+    idRate
+    idOu
+    idRateType
+    code
+    description
+    idStatus
+    idUserCreate
+    createdAt
+    idUserUpdate
+    updatedAt
+  }
+}

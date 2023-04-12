@@ -1,0 +1,11 @@
+query GetEntities($filter: GetEntitiesInput!) {
+  getEntities(filter: $filter) {
+    info {
+      count
+    }
+    results {
+      idEntity
+      name
+    }
+  }
+}

@@ -1,0 +1,20 @@
+query getUserByEmailAddress($email: String!) {
+  getUserByEmailAddress(email: $email) {
+    idUser
+    idOu
+    idUserOauth
+    idEntity
+    idUserType
+    name
+    userName
+    email
+    phone
+    idLanguage
+    utcTime
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

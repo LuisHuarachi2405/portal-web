@@ -1,0 +1,15 @@
+query FindFullEntityById($idEntity: BUFFER!) {
+  findFullEntityById(idEntity: $idEntity) {
+    commercialName
+    businessName
+    currencyType
+    documentNumber
+    documentType
+    geolocSunat
+    igv
+    address {
+      line1
+      line2
+    }
+  }
+}

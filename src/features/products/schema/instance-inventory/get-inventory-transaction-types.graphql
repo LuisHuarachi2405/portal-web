@@ -1,0 +1,12 @@
+query GetInventoryTransactionTypes {
+  getGeneralParametersByCode(code: "PROTTI") {
+    idGeneralParameter
+    code
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      code
+      name
+    }
+  }
+}

@@ -1,0 +1,36 @@
+query getGeneralParameterByArgsQuery(
+  $generalParameterByArgsQueryInput: GeneralParameterByArgsQueryInput!
+) {
+  generalParametersByArgs(generalParameterByArgsQueryInput: $generalParameterByArgsQueryInput) {
+    data {
+      idGeneralParameter
+      idOu
+      idGeneralParameterValue
+      name
+      shortName
+      code
+      idStatus
+      createdAt
+      updatedAt
+      idUserCreate
+      idUserUpdate
+      generalParameterValue {
+        idGeneralParameterValue
+        idGeneralParameter
+        idGeneralParameterType
+        idOu
+        name
+        shortName
+        code
+        idStatus
+        value
+        type
+        idUserCreate
+        idUserUpdate
+        createdAt
+        updatedAt
+      }
+    }
+    count
+  }
+}

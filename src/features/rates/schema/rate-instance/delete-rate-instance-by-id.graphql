@@ -1,0 +1,15 @@
+mutation deleteRateInstance($idRateInstance: BUFFER!) {
+  deleteRateInstance(idRateInstance: $idRateInstance) {
+    idRateInstance
+    idOu
+    idRate
+    startDate
+    endDate
+    idProduct
+    idProductInstance
+    idEntity
+    idChannel
+    idMarket
+    idBusiness
+  }
+}

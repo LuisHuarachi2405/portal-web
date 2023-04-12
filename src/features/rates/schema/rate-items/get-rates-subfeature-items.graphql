@@ -1,0 +1,14 @@
+query getRateSubFeatureItems {
+  getRateSubFeatureItems {
+    idRateSubFeatureItem
+    idOu
+    idRateSubFeature
+    code
+    name
+    shortName
+    idRateSubFeatureItemType
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

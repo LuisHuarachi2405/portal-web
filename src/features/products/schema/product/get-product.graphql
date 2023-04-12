@@ -1,0 +1,15 @@
+query GetProduct($productId: BUFFER!) {
+  product(id: $productId) {
+    idProduct
+    code
+    name
+    shortName
+    idProductType
+    idEntitySupplier
+    inventoryFlag
+    internationalCodeSunat
+    operationalCodeSunat
+    productTypeSunat
+    unitSunat
+  }
+}

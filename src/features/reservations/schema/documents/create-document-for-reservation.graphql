@@ -1,0 +1,17 @@
+mutation createReservationRepoDocument(
+  $createReservationRepoDocumentInput: CreateReservationRepoDocumentInput!
+) {
+  createReservationRepoDocument(
+    createReservationRepoDocumentInput: $createReservationRepoDocumentInput
+  ) {
+    idRepoDocument
+    idReservation
+    name
+    idOu
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

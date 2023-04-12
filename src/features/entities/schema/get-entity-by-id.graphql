@@ -1,4 +1,4 @@
-query GetEntity($idEntity: BUFFER!) {
+query getEntity($idEntity: BUFFER!) {
   getEntity(idEntity: $idEntity) {
     entity {
       idEntity
@@ -95,20 +95,6 @@ query GetEntity($idEntity: BUFFER!) {
         idUserCreate
         createdAt
         idUserUpdate
-        updatedAt
-      }
-      entityIdType {
-        idGeneralParameterValue
-        idOu
-        name
-        shortName
-        code
-        value
-        type
-        idStatus
-        idGeneralParameterType
-        idGeneralParameter
-        createdAt
         updatedAt
       }
     }

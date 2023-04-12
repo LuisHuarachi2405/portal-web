@@ -1,0 +1,5 @@
+mutation DeleteRolePermission($idRole: BUFFER!, $idPermission: BUFFER!) {
+  deleteRolePermission(idRole: $idRole, idPermission: $idPermission) {
+    ...rolePermissionFragment
+  }
+}

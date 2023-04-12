@@ -1,0 +1,96 @@
+query GetRateInstancesByDateProducts($idProducts: [idProductsInput!]!) {
+  getRateInstancesByDateProducts(idProducts: $idProducts) {
+    idRateInstance
+    idRate
+    idProductInstance
+    idRelatedRateInstance
+
+    startDate
+    endDate
+    sellingPrice1
+
+    idStatus
+
+    rateFeature1: rateFeature_rateFeatureTorateInstance_idRateFeature1 {
+      idRateFeature
+      name
+    }
+    rateFeature2: rateFeature_rateFeatureTorateInstance_idRateFeature2 {
+      idRateFeature
+      name
+    }
+    rateFeature3: rateFeature_rateFeatureTorateInstance_idRateFeature3 {
+      idRateFeature
+      name
+    }
+    rateFeature4: rateFeature_rateFeatureTorateInstance_idRateFeature4 {
+      idRateFeature
+      name
+    }
+    rateFeature5: rateFeature_rateFeatureTorateInstance_idRateFeature5 {
+      idRateFeature
+      name
+    }
+    rateFeature6: rateFeature_rateFeatureTorateInstance_idRateFeature6 {
+      idRateFeature
+      name
+    }
+    rateFeature7: rateFeature_rateFeatureTorateInstance_idRateFeature7 {
+      idRateFeature
+      name
+    }
+    rateFeature8: rateFeature_rateFeatureTorateInstance_idRateFeature8 {
+      idRateFeature
+      name
+    }
+    rateFeature9: rateFeature_rateFeatureTorateInstance_idRateFeature9 {
+      idRateFeature
+      name
+    }
+    rateFeature10: rateFeature_rateFeatureTorateInstance_idRateFeature10 {
+      idRateFeature
+      name
+    }
+
+    rateSubFeatureItem1: rateSubFeatureItem_rateInstance_idRateSubFeatureItem1_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem2: rateSubFeatureItem_rateInstance_idRateSubFeatureItem2_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem3: rateSubFeatureItem_rateInstance_idRateSubFeatureItem3_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem4: rateSubFeatureItem_rateInstance_idRateSubFeatureItem4_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem5: rateSubFeatureItem_rateInstance_idRateSubFeatureItem5_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem6: rateSubFeatureItem_rateInstance_idRateSubFeatureItem6_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem7: rateSubFeatureItem_rateInstance_idRateSubFeatureItem7_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem8: rateSubFeatureItem_rateInstance_idRateSubFeatureItem8_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem9: rateSubFeatureItem_rateInstance_idRateSubFeatureItem9_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+    rateSubFeatureItem10: rateSubFeatureItem_rateInstance_idRateSubFeatureItem10_idRateSubFeature1TorateSubFeatureItem {
+      idRateSubFeatureItem
+      name
+    }
+  }
+}

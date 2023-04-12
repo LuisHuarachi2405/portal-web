@@ -1,0 +1,14 @@
+mutation deleteRate($idRate: BUFFER!) {
+  deleteRate(idRate: $idRate) {
+    idRate
+    idOu
+    idRateType
+    code
+    description
+    idStatus
+    idUserCreate
+    createdAt
+    idUserUpdate
+    updatedAt
+  }
+}

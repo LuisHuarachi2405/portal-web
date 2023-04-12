@@ -1,0 +1,12 @@
+mutation createReservationPassenger(
+  $createReservationPassengerInput: CreateReservationPassengerInput!
+) {
+  createReservationPassenger(createReservationPassengerInput: $createReservationPassengerInput) {
+    idReservation
+    idPassenger
+    idOu
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

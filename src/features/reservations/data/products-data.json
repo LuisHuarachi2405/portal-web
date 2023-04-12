@@ -1,0 +1,46 @@
+{
+  "data": {
+    "findForReservations": {
+      "count": 1,
+      "data": [
+        {
+          "balance": 100,
+          "date": "2022-12-07T00:00:00.000Z",
+          "idInventory": "cd30058a75c211edae8d0214ac2366b7",
+          "productInstance": {
+            "idProductInstance": "f1970881671311edae8d0214ac2366b7",
+            "product": {
+              "idProduct": "e7d5f5ab606011edae8d0214ac2366b7",
+              "code": "PRVTD84-2022",
+              "name": "TREN PERURAIL VISTADOME 84 2022",
+              "feature1": null,
+              "feature2": null,
+              "feature3": null,
+              "feature4": null,
+              "feature5": null,
+              "feature6": null,
+              "feature7": null,
+              "feature8": null,
+              "feature9": null,
+              "feature10": null,
+              "__typename": "Product"
+            },
+            "subfeatureItem1": null,
+            "subfeatureItem2": null,
+            "subfeatureItem3": null,
+            "subfeatureItem4": null,
+            "subfeatureItem5": null,
+            "subfeatureItem6": null,
+            "subfeatureItem7": null,
+            "subfeatureItem8": null,
+            "subfeatureItem9": null,
+            "subfeatureItem10": null,
+            "__typename": "ProductInstance"
+          },
+          "__typename": "Inventory"
+        }
+      ],
+      "__typename": "ReservationSearchOutput"
+    }
+  }
+}

@@ -1,8 +1,12 @@
-import type { Dispatch, FC, SetStateAction } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
+import { ExitToApp } from '@mui/icons-material'
+import { Button } from '@mui/material'
 
 import { MenuList } from './sidebar/menu-list'
+
+import { useAuth } from '../contexts/auth/auth-provider'
 
 interface DrawerProps {
   toggleDrawer: boolean
@@ -16,6 +20,8 @@ export const Drawer: FC<DrawerProps> = (props) => {
     setToggleDrawer(false)
   }
 
+  const { logout } = useAuth()
+
   return (
     <div>
       <MuiDrawer anchor="left" open={toggleDrawer} onClose={onHideDrawer}>
@@ -26,6 +32,18 @@ export const Drawer: FC<DrawerProps> = (props) => {
           onKeyDown={onHideDrawer}
         >
           <MenuList />
+
+          <div style={{ padding: '8px' }}>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<ExitToApp />}
+              fullWidth
+              onClick={logout}
+            >
+              Sign out
+            </Button>
+          </div>
         </Box>
       </MuiDrawer>
     </div>

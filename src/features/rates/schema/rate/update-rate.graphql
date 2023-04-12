@@ -1,0 +1,14 @@
+mutation updateRate($rate: RateInput!) {
+  updateRate(rate: $rate) {
+    idRate
+    idOu
+    idRateType
+    code
+    description
+    idStatus
+    idUserCreate
+    createdAt
+    idUserUpdate
+    updatedAt
+  }
+}

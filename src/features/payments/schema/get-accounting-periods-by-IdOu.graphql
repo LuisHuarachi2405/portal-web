@@ -1,0 +1,5 @@
+query GetAccountingPeriodsByIdOu($idOu: BUFFER!) {
+  getAccountingPeriodsByIdOu(idOu: $idOu) {
+    _count
+  }
+}

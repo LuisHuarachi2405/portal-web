@@ -1,0 +1,28 @@
+mutation updateRateSubFeature($updateRateSubFeatureInput: UpdateRateSubFeatureInput!) {
+  updateRateSubFeature(updateRateSubFeatureInput: $updateRateSubFeatureInput) {
+    idRateSubFeature
+    idOu
+    code
+    name
+    shortName
+    idRateSubFeatureType
+    idProductCategory
+    idStatus
+    idUserCreate
+    createdAt
+    idUserUpdate
+    updatedAt
+    rateSubFeatureItem {
+      idRateSubFeatureItem
+      idOu
+      idRateSubFeature
+      code
+      name
+      shortName
+      idRateSubFeatureItemType
+      idStatus
+      idUserCreate
+      idUserUpdate
+    }
+  }
+}

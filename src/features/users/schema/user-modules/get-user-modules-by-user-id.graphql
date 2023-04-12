@@ -1,0 +1,12 @@
+query getUserModulesByUserId($idUser: BUFFER!) {
+  getUserModulesByUserId(idUser: $idUser) {
+    idUser
+    idOu
+    idModule
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

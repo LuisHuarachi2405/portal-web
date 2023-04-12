@@ -1,0 +1,19 @@
+mutation createPassengers($createPassengerInputArray: [CreatePassengerInput!]!) {
+  createPassengers(createPassengerInputArray: $createPassengerInputArray) {
+    idPassenger
+    idOu
+    name
+    lastName
+    idDocumentType
+    documentNumber
+    birthDate
+    idGender
+    idCountry
+    email
+    flagInvoice
+    idPassengerType
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

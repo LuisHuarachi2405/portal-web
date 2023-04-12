@@ -1,0 +1,5 @@
+mutation createOu($data: CreateOuInput!) {
+  createOu(data: $data) {
+    ...organizationalUnitsFields
+  }
+}

@@ -1,4 +1,3 @@
-import { Box } from '@mui/material'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
@@ -16,11 +15,9 @@ const DynamicGeneralParametersTable = dynamic(
 )
 
 const GeneralParametersPage: NextPage = () => (
-  <Box>
-    <Suspense fallback={<Spinner />}>
-      <DynamicGeneralParametersTable />
-    </Suspense>
-  </Box>
+  <Suspense fallback={<Spinner />}>
+    <DynamicGeneralParametersTable />
+  </Suspense>
 )
 
 export default GeneralParametersPage

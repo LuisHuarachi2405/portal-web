@@ -1,0 +1,15 @@
+mutation CreateDailyCashier($createDailyCashierValueInput: CreateDailyCashierValueInput!) {
+  createDailyCashier(CreateDailyCashierValueInput: $createDailyCashierValueInput) {
+    idDailyCashier
+    idOu
+    idUser
+    idDailyCashierType
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    date
+    note
+    updatedAt
+  }
+}

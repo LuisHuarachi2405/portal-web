@@ -11,10 +11,7 @@ export const FormTest = () => {
     formState: { errors },
   } = useForm<FormTestValues>()
 
-  const onSubmit = (data: FormTestValues) => {
-    // eslint-disable-next-line no-console
-    console.log(data)
-  }
+  const onSubmit = () => {}
 
   return (
     <div>

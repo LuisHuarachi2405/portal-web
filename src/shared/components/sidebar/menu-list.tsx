@@ -1,5 +1,4 @@
 import { useState, Fragment, FC } from 'react'
-import MailIcon from '@mui/icons-material/Mail'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import List from '@mui/material/List'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -8,6 +7,8 @@ import ListItemButton from '@mui/material/ListItemButton'
 import Link from 'next/link'
 import { Collapse } from '@mui/material'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import Image from 'next/image'
+import { Box } from '@mui/system'
 
 import { useIntl } from '@/shared/hooks/use-intl'
 
@@ -24,6 +25,9 @@ export const MenuList: FC = () => {
 
   return (
     <List>
+      <Box padding="4px 16px" display="flex" alignItems="center" justifyContent="center">
+        <Image src="/assets/portal-logo.svg" width={200} height={60} alt="logo" />
+      </Box>
       {sidebarItems.map((item, index) => (
         <Fragment key={item.name}>
           {item.subPaths ? (
@@ -35,7 +39,7 @@ export const MenuList: FC = () => {
                   handleClick(index)
                 }}
               >
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemIcon>{item?.icon || <InboxIcon />}</ListItemIcon>
                 <ListItemText primary={intl.formatMessage(item.name)} />
                 {item.subPaths && (openItem ? <ExpandLess /> : <ExpandMore />)}
               </ListItemButton>
@@ -43,11 +47,9 @@ export const MenuList: FC = () => {
                 <Collapse in={openItem === index}>
                   <List>
                     {item.subPaths.map((subItem) => (
-                      <Link key={subItem.name} href={subItem.path}>
+                      <Link key={subItem.name} href={subItem.path as string}>
                         <ListItemButton sx={{ pl: 4 }} divider>
-                          <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                          </ListItemIcon>
+                          <ListItemIcon>{subItem?.icon || <InboxIcon />}</ListItemIcon>
                           <ListItemText primary={intl.formatMessage(subItem.name)} />
                         </ListItemButton>
                       </Link>
@@ -57,9 +59,9 @@ export const MenuList: FC = () => {
               )}
             </>
           ) : (
-            <Link href={item.path}>
+            <Link href={item.path as string}>
               <ListItemButton divider>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemIcon>{item.icon || <InboxIcon />}</ListItemIcon>
                 <ListItemText primary={intl.formatMessage(item.name)} />
               </ListItemButton>
             </Link>

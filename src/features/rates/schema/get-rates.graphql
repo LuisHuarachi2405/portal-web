@@ -1,0 +1,14 @@
+query getRates {
+  getRates {
+    idRate
+    idOu
+    idRateType
+    code
+    description
+    idStatus
+    idUserCreate
+    createdAt
+    idUserUpdate
+    updatedAt
+  }
+}

@@ -1,0 +1,29 @@
+fragment rolePermissionFullFragment on RolePermission {
+  idRole
+  idPermission
+  roleName
+  permissionName
+  idOu
+  idStatus
+  createdAt
+  updatedAt
+  idUserCreate
+  idUserUpdate
+  count {
+    count
+  }
+  permissionsCount {
+    idPermission
+  }
+}
+
+fragment rolePermissionFragment on RolePermission {
+  idRole
+  idPermission
+  idOu
+  idStatus
+  createdAt
+  updatedAt
+  idUserCreate
+  idUserUpdate
+}

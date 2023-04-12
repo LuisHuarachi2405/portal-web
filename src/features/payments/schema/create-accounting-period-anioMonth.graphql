@@ -1,0 +1,6 @@
+mutation CreateAccountingPeriodAnioMonth($accountingPeriodValueInput: AccountingPeriodValueInput!) {
+  createAccountingPeriodAnioMonth(AccountingPeriodValueInput: $accountingPeriodValueInput) {
+    Message
+    count
+  }
+}

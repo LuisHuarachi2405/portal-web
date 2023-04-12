@@ -1,4 +1,4 @@
-interface EntityDirectionValues {
+export interface EntityDirectionValues {
   idCountry: string
   line1: string
   line2: string
@@ -8,23 +8,23 @@ interface EntityDirectionValues {
   idAddressType: string
 }
 
-interface EntityContactValues {
+export interface EntityContactValues {
   idContactType: string
   value: string
 }
 
 interface EntityIdType {
-  idEntityIdType?: string
+  idEntityIdType: string
   value?: string
 }
 
 export interface FormDataEntity {
   idEntity?: string
   entityType?: string
-  role?: string
+  role?: string[]
   name?: string
   commercialName?: string
-  idEntityIdType?: EntityIdType
+  idEntityIdType?: EntityIdType[]
   entityDirectionValues?: EntityDirectionValues[]
   entityContactValues?: EntityContactValues[]
   market?: String

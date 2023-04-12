@@ -1,0 +1,13 @@
+mutation removeReservationRepoDocument($idRepoDocument: BUFFER!) {
+  removeReservationRepoDocument(idRepoDocument: $idRepoDocument) {
+    idRepoDocument
+    idReservation
+    name
+    idOu
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

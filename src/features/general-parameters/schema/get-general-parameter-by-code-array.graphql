@@ -1,0 +1,21 @@
+query getGeneralParametersByCodeArray($codes: [String!]!) {
+  getGeneralParametersByCodeArray(codes: $codes) {
+    idGeneralParameter
+    idOu
+    idGeneralParameterValue
+    name
+    shortName
+    code
+    generalParameterValue {
+      idGeneralParameterValue
+      idGeneralParameter
+      idGeneralParameterType
+      idOu
+      name
+      shortName
+      code
+      value
+      type
+    }
+  }
+}

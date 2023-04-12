@@ -1,0 +1,17 @@
+mutation CreateSession($data: CreateSessionDto!) {
+  createSession(data: $data) {
+    idSession
+    idOu
+    idUser
+    idSessionOauth
+    date
+    ipv4
+    ipv6
+    macaddress
+    client
+    app
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

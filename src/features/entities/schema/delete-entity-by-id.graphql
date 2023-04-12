@@ -1,4 +1,4 @@
-mutation DeleteEntity($idEntity: BUFFER!) {
+mutation deleteEntity($idEntity: BUFFER!) {
   deleteEntity(idEntity: $idEntity) {
     result {
       idEntity

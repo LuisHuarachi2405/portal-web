@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import * as Apollo from '@apollo/client'
-
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
@@ -25,13 +24,10 @@ export type CreateGeneralParameterInput = {
   code: Scalars['String']
   generalParameterValue: Array<GeneralParameterValueInput>
   idGeneralParameterValue?: InputMaybe<Scalars['BUFFER']>
+  idOu?: InputMaybe<Scalars['BUFFER']>
+  idUser?: InputMaybe<Scalars['BUFFER']>
   name: Scalars['String']
   shortName: Scalars['String']
-}
-
-export type Entity = {
-  __typename?: 'Entity'
-  idEntity: Scalars['BUFFER']
 }
 
 export type GeneralParameter = {
@@ -48,6 +44,23 @@ export type GeneralParameter = {
   name: Scalars['String']
   shortName: Scalars['String']
   updatedAt: Scalars['DateTime']
+}
+
+export type GeneralParameterByArgsQueryInput = {
+  skip: Scalars['Float']
+  take: Scalars['Float']
+  userInput?: InputMaybe<Scalars['String']>
+}
+
+export type GeneralParameterQueryInput = {
+  skip: Scalars['Float']
+  take: Scalars['Float']
+}
+
+export type GeneralParameterQueryResult = {
+  __typename?: 'GeneralParameterQueryResult'
+  count: Scalars['Float']
+  data: Array<GeneralParameter>
 }
 
 export type GeneralParameterValue = {
@@ -103,17 +116,28 @@ export type Query = {
   __typename?: 'Query'
   _entities: Array<Maybe<_Entity>>
   _service: _Service
-  generalParameters: Array<GeneralParameter>
+  generalParameters: GeneralParameterQueryResult
+  generalParametersByArgs: GeneralParameterQueryResult
   getAllGeneralParameterValues: Array<GeneralParameterValue>
   getGeneralParameterById: GeneralParameter
   getGeneralParameterValueByArgs: Array<GeneralParameterValue>
-  getGeneralParameterValueByGeneralParameterId: Array<GeneralParameterValue>
+  getGeneralParameterValueByCodeArray: Array<GeneralParameterValue>
   getGeneralParameterValueById: GeneralParameterValue
-  getGeneralParametersByCode: Array<GeneralParameter>
+  getGeneralParametersByCode: GeneralParameter
+  getGeneralParametersByCodeArray: Array<GeneralParameter>
+  getGeneralParametersByGeneralParameterValueId: Array<GeneralParameter>
 }
 
 export type Query_EntitiesArgs = {
   representations: Array<Scalars['_Any']>
+}
+
+export type QueryGeneralParametersArgs = {
+  generalParameterQueryInput: GeneralParameterQueryInput
+}
+
+export type QueryGeneralParametersByArgsArgs = {
+  generalParameterByArgsQueryInput: GeneralParameterByArgsQueryInput
 }
 
 export type QueryGetGeneralParameterByIdArgs = {
@@ -122,11 +146,11 @@ export type QueryGetGeneralParameterByIdArgs = {
 
 export type QueryGetGeneralParameterValueByArgsArgs = {
   limit?: InputMaybe<Scalars['Int']>
-  userInput: Scalars['String']
+  userInput?: InputMaybe<Scalars['String']>
 }
 
-export type QueryGetGeneralParameterValueByGeneralParameterIdArgs = {
-  idGeneralParameter: Scalars['BUFFER']
+export type QueryGetGeneralParameterValueByCodeArrayArgs = {
+  codes: Array<Scalars['String']>
 }
 
 export type QueryGetGeneralParameterValueByIdArgs = {
@@ -135,6 +159,14 @@ export type QueryGetGeneralParameterValueByIdArgs = {
 
 export type QueryGetGeneralParametersByCodeArgs = {
   code: Scalars['String']
+}
+
+export type QueryGetGeneralParametersByCodeArrayArgs = {
+  codes: Array<Scalars['String']>
+}
+
+export type QueryGetGeneralParametersByGeneralParameterValueIdArgs = {
+  idGeneralParameterValue: Scalars['BUFFER']
 }
 
 export type UpdateGeneralParameterInput = {
@@ -158,7 +190,7 @@ export type UpdateGeneralParameterValueInput = {
   value?: InputMaybe<Scalars['String']>
 }
 
-export type _Entity = Entity | GeneralParameter | GeneralParameterValue
+export type _Entity = GeneralParameter
 
 export type _Service = {
   __typename?: '_Service'
@@ -293,13 +325,81 @@ export type GeneralParameterValueFieldsFragment = {
   updatedAt: any
 }
 
+export type GetGeneralParametersByCodeArrayQueryVariables = Exact<{
+  codes: Array<Scalars['String']> | Scalars['String']
+}>
+
+export type GetGeneralParametersByCodeArrayQuery = {
+  __typename?: 'Query'
+  getGeneralParametersByCodeArray: Array<{
+    __typename?: 'GeneralParameter'
+    idGeneralParameter: any
+    idOu: any
+    idGeneralParameterValue?: any | null
+    name: string
+    shortName: string
+    code: string
+    generalParameterValue: Array<{
+      __typename?: 'GeneralParameterValue'
+      idGeneralParameterValue: any
+      idGeneralParameter?: any | null
+      idGeneralParameterType: any
+      idOu?: any | null
+      name: string
+      shortName: string
+      code: string
+      value?: string | null
+      type?: string | null
+    }>
+  }>
+}
+
 export type GetGeneralParametersByCodeQueryVariables = Exact<{
   code: Scalars['String']
 }>
 
 export type GetGeneralParametersByCodeQuery = {
   __typename?: 'Query'
-  getGeneralParametersByCode: Array<{
+  getGeneralParametersByCode: {
+    __typename?: 'GeneralParameter'
+    idGeneralParameter: any
+    idOu: any
+    name: string
+    shortName: string
+    code: string
+    idStatus: string
+    idGeneralParameterValue?: any | null
+    idUserCreate: any
+    idUserUpdate: any
+    createdAt: any
+    updatedAt: any
+    generalParameterValue: Array<{
+      __typename?: 'GeneralParameterValue'
+      idGeneralParameterValue: any
+      idGeneralParameter?: any | null
+      idGeneralParameterType: any
+      idOu?: any | null
+      idStatus: string
+      name: string
+      shortName: string
+      code: string
+      value?: string | null
+      type?: string | null
+      idUserCreate: any
+      idUserUpdate: any
+      createdAt: any
+      updatedAt: any
+    }>
+  }
+}
+
+export type GetGeneralParametersByGeneralParameterValueIdQueryVariables = Exact<{
+  idGeneralParameterValue: Scalars['BUFFER']
+}>
+
+export type GetGeneralParametersByGeneralParameterValueIdQuery = {
+  __typename?: 'Query'
+  getGeneralParametersByGeneralParameterValueId: Array<{
     __typename?: 'GeneralParameter'
     idGeneralParameter: any
     idOu: any
@@ -397,31 +497,6 @@ export type GetGeneralParameterValueByArgsQuery = {
   }>
 }
 
-export type GetGeneralParameterValueByGeneralParameterIdQueryVariables = Exact<{
-  idGeneralParameter: Scalars['BUFFER']
-}>
-
-export type GetGeneralParameterValueByGeneralParameterIdQuery = {
-  __typename?: 'Query'
-  getGeneralParameterValueByGeneralParameterId: Array<{
-    __typename?: 'GeneralParameterValue'
-    idGeneralParameterValue: any
-    idGeneralParameter?: any | null
-    idGeneralParameterType: any
-    idOu?: any | null
-    idStatus: string
-    name: string
-    shortName: string
-    code: string
-    value?: string | null
-    type?: string | null
-    idUserCreate: any
-    idUserUpdate: any
-    createdAt: any
-    updatedAt: any
-  }>
-}
-
 export type GetGeneralParameterValueByIdQueryVariables = Exact<{
   idGeneralParameterValue: Scalars['BUFFER']
 }>
@@ -470,41 +545,90 @@ export type GetAllGeneralParameterValuesQuery = {
   }>
 }
 
-export type GetGeneralParametersQueryVariables = Exact<{ [key: string]: never }>
+export type GetGeneralParameterByArgsQueryQueryVariables = Exact<{
+  generalParameterByArgsQueryInput: GeneralParameterByArgsQueryInput
+}>
 
-export type GetGeneralParametersQuery = {
+export type GetGeneralParameterByArgsQueryQuery = {
   __typename?: 'Query'
-  generalParameters: Array<{
-    __typename?: 'GeneralParameter'
-    idGeneralParameter: any
-    idOu: any
-    name: string
-    shortName: string
-    code: string
-    idStatus: string
-    idGeneralParameterValue?: any | null
-    idUserCreate: any
-    idUserUpdate: any
-    createdAt: any
-    updatedAt: any
-    generalParameterValue: Array<{
-      __typename?: 'GeneralParameterValue'
-      idGeneralParameterValue: any
-      idGeneralParameter?: any | null
-      idGeneralParameterType: any
-      idOu?: any | null
-      idStatus: string
+  generalParametersByArgs: {
+    __typename?: 'GeneralParameterQueryResult'
+    count: number
+    data: Array<{
+      __typename?: 'GeneralParameter'
+      idGeneralParameter: any
+      idOu: any
+      idGeneralParameterValue?: any | null
       name: string
       shortName: string
       code: string
-      value?: string | null
-      type?: string | null
+      idStatus: string
+      createdAt: any
+      updatedAt: any
+      idUserCreate: any
+      idUserUpdate: any
+      generalParameterValue: Array<{
+        __typename?: 'GeneralParameterValue'
+        idGeneralParameterValue: any
+        idGeneralParameter?: any | null
+        idGeneralParameterType: any
+        idOu?: any | null
+        name: string
+        shortName: string
+        code: string
+        idStatus: string
+        value?: string | null
+        type?: string | null
+        idUserCreate: any
+        idUserUpdate: any
+        createdAt: any
+        updatedAt: any
+      }>
+    }>
+  }
+}
+
+export type GetGeneralParametersQueryVariables = Exact<{
+  generalParameterQueryInput: GeneralParameterQueryInput
+}>
+
+export type GetGeneralParametersQuery = {
+  __typename?: 'Query'
+  generalParameters: {
+    __typename?: 'GeneralParameterQueryResult'
+    count: number
+    data: Array<{
+      __typename?: 'GeneralParameter'
+      idGeneralParameter: any
+      idOu: any
+      name: string
+      shortName: string
+      code: string
+      idStatus: string
+      idGeneralParameterValue?: any | null
       idUserCreate: any
       idUserUpdate: any
       createdAt: any
       updatedAt: any
+      generalParameterValue: Array<{
+        __typename?: 'GeneralParameterValue'
+        idGeneralParameterValue: any
+        idGeneralParameter?: any | null
+        idGeneralParameterType: any
+        idOu?: any | null
+        idStatus: string
+        name: string
+        shortName: string
+        code: string
+        value?: string | null
+        type?: string | null
+        idUserCreate: any
+        idUserUpdate: any
+        createdAt: any
+        updatedAt: any
+      }>
     }>
-  }>
+  }
 }
 
 export type UpdateGeneralParameterMutationVariables = Exact<{
@@ -685,6 +809,80 @@ export type DeleteGeneralParameterMutationOptions = Apollo.BaseMutationOptions<
   DeleteGeneralParameterMutation,
   DeleteGeneralParameterMutationVariables
 >
+export const GetGeneralParametersByCodeArrayDocument = gql`
+  query getGeneralParametersByCodeArray($codes: [String!]!) {
+    getGeneralParametersByCodeArray(codes: $codes) {
+      idGeneralParameter
+      idOu
+      idGeneralParameterValue
+      name
+      shortName
+      code
+      generalParameterValue {
+        idGeneralParameterValue
+        idGeneralParameter
+        idGeneralParameterType
+        idOu
+        name
+        shortName
+        code
+        value
+        type
+      }
+    }
+  }
+`
+
+/**
+ * __useGetGeneralParametersByCodeArrayQuery__
+ *
+ * To run a query within a React component, call `useGetGeneralParametersByCodeArrayQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGeneralParametersByCodeArrayQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGeneralParametersByCodeArrayQuery({
+ *   variables: {
+ *      codes: // value for 'codes'
+ *   },
+ * });
+ */
+export function useGetGeneralParametersByCodeArrayQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetGeneralParametersByCodeArrayQuery,
+    GetGeneralParametersByCodeArrayQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    GetGeneralParametersByCodeArrayQuery,
+    GetGeneralParametersByCodeArrayQueryVariables
+  >(GetGeneralParametersByCodeArrayDocument, options)
+}
+export function useGetGeneralParametersByCodeArrayLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetGeneralParametersByCodeArrayQuery,
+    GetGeneralParametersByCodeArrayQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    GetGeneralParametersByCodeArrayQuery,
+    GetGeneralParametersByCodeArrayQueryVariables
+  >(GetGeneralParametersByCodeArrayDocument, options)
+}
+export type GetGeneralParametersByCodeArrayQueryHookResult = ReturnType<
+  typeof useGetGeneralParametersByCodeArrayQuery
+>
+export type GetGeneralParametersByCodeArrayLazyQueryHookResult = ReturnType<
+  typeof useGetGeneralParametersByCodeArrayLazyQuery
+>
+export type GetGeneralParametersByCodeArrayQueryResult = Apollo.QueryResult<
+  GetGeneralParametersByCodeArrayQuery,
+  GetGeneralParametersByCodeArrayQueryVariables
+>
 export const GetGeneralParametersByCodeDocument = gql`
   query getGeneralParametersByCode($code: String!) {
     getGeneralParametersByCode(code: $code) {
@@ -743,6 +941,67 @@ export type GetGeneralParametersByCodeLazyQueryHookResult = ReturnType<
 export type GetGeneralParametersByCodeQueryResult = Apollo.QueryResult<
   GetGeneralParametersByCodeQuery,
   GetGeneralParametersByCodeQueryVariables
+>
+export const GetGeneralParametersByGeneralParameterValueIdDocument = gql`
+  query getGeneralParametersByGeneralParameterValueId($idGeneralParameterValue: BUFFER!) {
+    getGeneralParametersByGeneralParameterValueId(
+      idGeneralParameterValue: $idGeneralParameterValue
+    ) {
+      ...generalParameterFields
+    }
+  }
+  ${GeneralParameterFieldsFragmentDoc}
+`
+
+/**
+ * __useGetGeneralParametersByGeneralParameterValueIdQuery__
+ *
+ * To run a query within a React component, call `useGetGeneralParametersByGeneralParameterValueIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGeneralParametersByGeneralParameterValueIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGeneralParametersByGeneralParameterValueIdQuery({
+ *   variables: {
+ *      idGeneralParameterValue: // value for 'idGeneralParameterValue'
+ *   },
+ * });
+ */
+export function useGetGeneralParametersByGeneralParameterValueIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetGeneralParametersByGeneralParameterValueIdQuery,
+    GetGeneralParametersByGeneralParameterValueIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    GetGeneralParametersByGeneralParameterValueIdQuery,
+    GetGeneralParametersByGeneralParameterValueIdQueryVariables
+  >(GetGeneralParametersByGeneralParameterValueIdDocument, options)
+}
+export function useGetGeneralParametersByGeneralParameterValueIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetGeneralParametersByGeneralParameterValueIdQuery,
+    GetGeneralParametersByGeneralParameterValueIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    GetGeneralParametersByGeneralParameterValueIdQuery,
+    GetGeneralParametersByGeneralParameterValueIdQueryVariables
+  >(GetGeneralParametersByGeneralParameterValueIdDocument, options)
+}
+export type GetGeneralParametersByGeneralParameterValueIdQueryHookResult = ReturnType<
+  typeof useGetGeneralParametersByGeneralParameterValueIdQuery
+>
+export type GetGeneralParametersByGeneralParameterValueIdLazyQueryHookResult = ReturnType<
+  typeof useGetGeneralParametersByGeneralParameterValueIdLazyQuery
+>
+export type GetGeneralParametersByGeneralParameterValueIdQueryResult = Apollo.QueryResult<
+  GetGeneralParametersByGeneralParameterValueIdQuery,
+  GetGeneralParametersByGeneralParameterValueIdQueryVariables
 >
 export const GetGeneralParameterByIdDocument = gql`
   query getGeneralParameterById($id: BUFFER!) {
@@ -863,65 +1122,6 @@ export type GetGeneralParameterValueByArgsQueryResult = Apollo.QueryResult<
   GetGeneralParameterValueByArgsQuery,
   GetGeneralParameterValueByArgsQueryVariables
 >
-export const GetGeneralParameterValueByGeneralParameterIdDocument = gql`
-  query getGeneralParameterValueByGeneralParameterId($idGeneralParameter: BUFFER!) {
-    getGeneralParameterValueByGeneralParameterId(idGeneralParameter: $idGeneralParameter) {
-      ...generalParameterValueFields
-    }
-  }
-  ${GeneralParameterValueFieldsFragmentDoc}
-`
-
-/**
- * __useGetGeneralParameterValueByGeneralParameterIdQuery__
- *
- * To run a query within a React component, call `useGetGeneralParameterValueByGeneralParameterIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetGeneralParameterValueByGeneralParameterIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetGeneralParameterValueByGeneralParameterIdQuery({
- *   variables: {
- *      idGeneralParameter: // value for 'idGeneralParameter'
- *   },
- * });
- */
-export function useGetGeneralParameterValueByGeneralParameterIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetGeneralParameterValueByGeneralParameterIdQuery,
-    GetGeneralParameterValueByGeneralParameterIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<
-    GetGeneralParameterValueByGeneralParameterIdQuery,
-    GetGeneralParameterValueByGeneralParameterIdQueryVariables
-  >(GetGeneralParameterValueByGeneralParameterIdDocument, options)
-}
-export function useGetGeneralParameterValueByGeneralParameterIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetGeneralParameterValueByGeneralParameterIdQuery,
-    GetGeneralParameterValueByGeneralParameterIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<
-    GetGeneralParameterValueByGeneralParameterIdQuery,
-    GetGeneralParameterValueByGeneralParameterIdQueryVariables
-  >(GetGeneralParameterValueByGeneralParameterIdDocument, options)
-}
-export type GetGeneralParameterValueByGeneralParameterIdQueryHookResult = ReturnType<
-  typeof useGetGeneralParameterValueByGeneralParameterIdQuery
->
-export type GetGeneralParameterValueByGeneralParameterIdLazyQueryHookResult = ReturnType<
-  typeof useGetGeneralParameterValueByGeneralParameterIdLazyQuery
->
-export type GetGeneralParameterValueByGeneralParameterIdQueryResult = Apollo.QueryResult<
-  GetGeneralParameterValueByGeneralParameterIdQuery,
-  GetGeneralParameterValueByGeneralParameterIdQueryVariables
->
 export const GetGeneralParameterValueByIdDocument = gql`
   query getGeneralParameterValueById($idGeneralParameterValue: BUFFER!) {
     getGeneralParameterValueById(idGeneralParameterValue: $idGeneralParameterValue) {
@@ -1039,10 +1239,102 @@ export type GetAllGeneralParameterValuesQueryResult = Apollo.QueryResult<
   GetAllGeneralParameterValuesQuery,
   GetAllGeneralParameterValuesQueryVariables
 >
+export const GetGeneralParameterByArgsQueryDocument = gql`
+  query getGeneralParameterByArgsQuery(
+    $generalParameterByArgsQueryInput: GeneralParameterByArgsQueryInput!
+  ) {
+    generalParametersByArgs(generalParameterByArgsQueryInput: $generalParameterByArgsQueryInput) {
+      data {
+        idGeneralParameter
+        idOu
+        idGeneralParameterValue
+        name
+        shortName
+        code
+        idStatus
+        createdAt
+        updatedAt
+        idUserCreate
+        idUserUpdate
+        generalParameterValue {
+          idGeneralParameterValue
+          idGeneralParameter
+          idGeneralParameterType
+          idOu
+          name
+          shortName
+          code
+          idStatus
+          value
+          type
+          idUserCreate
+          idUserUpdate
+          createdAt
+          updatedAt
+        }
+      }
+      count
+    }
+  }
+`
+
+/**
+ * __useGetGeneralParameterByArgsQueryQuery__
+ *
+ * To run a query within a React component, call `useGetGeneralParameterByArgsQueryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGeneralParameterByArgsQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGeneralParameterByArgsQueryQuery({
+ *   variables: {
+ *      generalParameterByArgsQueryInput: // value for 'generalParameterByArgsQueryInput'
+ *   },
+ * });
+ */
+export function useGetGeneralParameterByArgsQueryQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetGeneralParameterByArgsQueryQuery,
+    GetGeneralParameterByArgsQueryQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    GetGeneralParameterByArgsQueryQuery,
+    GetGeneralParameterByArgsQueryQueryVariables
+  >(GetGeneralParameterByArgsQueryDocument, options)
+}
+export function useGetGeneralParameterByArgsQueryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetGeneralParameterByArgsQueryQuery,
+    GetGeneralParameterByArgsQueryQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    GetGeneralParameterByArgsQueryQuery,
+    GetGeneralParameterByArgsQueryQueryVariables
+  >(GetGeneralParameterByArgsQueryDocument, options)
+}
+export type GetGeneralParameterByArgsQueryQueryHookResult = ReturnType<
+  typeof useGetGeneralParameterByArgsQueryQuery
+>
+export type GetGeneralParameterByArgsQueryLazyQueryHookResult = ReturnType<
+  typeof useGetGeneralParameterByArgsQueryLazyQuery
+>
+export type GetGeneralParameterByArgsQueryQueryResult = Apollo.QueryResult<
+  GetGeneralParameterByArgsQueryQuery,
+  GetGeneralParameterByArgsQueryQueryVariables
+>
 export const GetGeneralParametersDocument = gql`
-  query getGeneralParameters {
-    generalParameters {
-      ...generalParameterFields
+  query getGeneralParameters($generalParameterQueryInput: GeneralParameterQueryInput!) {
+    generalParameters(generalParameterQueryInput: $generalParameterQueryInput) {
+      data {
+        ...generalParameterFields
+      }
+      count
     }
   }
   ${GeneralParameterFieldsFragmentDoc}
@@ -1060,11 +1352,12 @@ export const GetGeneralParametersDocument = gql`
  * @example
  * const { data, loading, error } = useGetGeneralParametersQuery({
  *   variables: {
+ *      generalParameterQueryInput: // value for 'generalParameterQueryInput'
  *   },
  * });
  */
 export function useGetGeneralParametersQuery(
-  baseOptions?: Apollo.QueryHookOptions<
+  baseOptions: Apollo.QueryHookOptions<
     GetGeneralParametersQuery,
     GetGeneralParametersQueryVariables
   >

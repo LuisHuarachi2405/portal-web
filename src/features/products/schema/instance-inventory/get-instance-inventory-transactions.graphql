@@ -1,0 +1,13 @@
+query GetInstanceInventoryTransactions($idProductInstance: BUFFER!) {
+  inventoryTransactions(idProductInstance: $idProductInstance) {
+    idInventoryTransaction
+    date
+    idInventoryTransactionType
+    idReservation
+    idReservationItem
+    note
+    credit
+    debit
+    balance
+  }
+}

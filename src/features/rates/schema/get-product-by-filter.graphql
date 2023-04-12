@@ -1,0 +1,16 @@
+query productsByFilter($productQueryInput: ProductQueryInput!) {
+  productsByFilter(productQueryInput: $productQueryInput) {
+    data {
+      idProduct
+      idOu
+      code
+      barCode
+      name
+      shortName
+      idProductType
+      idEntitySupplier
+      inventoryFlag
+    }
+    count
+  }
+}

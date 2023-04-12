@@ -1,0 +1,10 @@
+query GetProductTypes {
+  getGeneralParametersByCode(code: "PROPRO") {
+    idGeneralParameter
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      name
+    }
+  }
+}

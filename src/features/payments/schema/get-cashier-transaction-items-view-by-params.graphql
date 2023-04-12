@@ -1,0 +1,22 @@
+query GetCashierTransactionItemsViewByParams($idOu: BUFFER!, $idCashierTransaction: BUFFER!) {
+  getCashierTransactionItemsViewByParams(idOu: $idOu, idCashierTransaction: $idCashierTransaction) {
+    idCashierTransactionItemType
+    idCashierTransactionItemTypeName
+    idReservation
+    idReservationItem
+    idCurrency1
+    idStatus
+    idUserUpdate
+    iddocument
+    cpeCodResponseSunat
+    cpeStatusSunat
+    date
+    description
+    SerialDcoument
+    numberDocument
+    amount1
+    updateAt
+    cpeCodResponseSunat
+    cpeStatusSunat
+  }
+}

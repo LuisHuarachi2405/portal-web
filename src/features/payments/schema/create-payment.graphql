@@ -1,0 +1,16 @@
+mutation CreatePayment($createPayment: CreatePaymentValueInput!) {
+  createPayment(createPayment: $createPayment) {
+    CODRESPUESTA
+    MENSAJE
+    XML
+    PDF
+    CDR
+    QR
+    TICKET
+    NOMBRE
+    QR_VALOR
+    RGBCOLOR_BACK
+    RGBCOLOR_FORECOLOR
+    idDocument
+  }
+}

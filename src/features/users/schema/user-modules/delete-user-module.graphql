@@ -1,0 +1,12 @@
+mutation deleteUserModule($data: DeleteUserModuleInput!) {
+  deleteUserModule(data: $data) {
+    idUser
+    idOu
+    idModule
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

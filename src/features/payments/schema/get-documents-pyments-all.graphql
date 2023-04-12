@@ -1,0 +1,37 @@
+query GetDocumentsPymentsAll($date: String!, $numDocumento: String!, $idOu: BUFFER!) {
+  getDocumentsPymentsAll(date: $date, numDocumento: $numDocumento, idOu: $idOu) {
+    idDocument
+    idDocumentItem
+    idDocumentType
+    idDocumentTypeName
+    idRelatedDocument
+    date
+    description
+    SerialDocument
+    number
+    idRelatedDocumentTypePayment
+    idRelatedDocumentType
+    idRelatedDocumentTypeName
+    dateRelated
+    descriptionRelated
+    SerialDocumentRelated
+    numberRelated
+    PaymentRegister
+    PaymentSunatMoney
+    DocumentTypeTrx
+    cpeTypeOperation
+    cpeTtaxesValue
+    cpeSellingPrice
+    amountTotal
+    cpeSellingValue
+    cpeTaxesAmount
+    cpeCustomerTypeDocument
+    cpeCustomerDocumentNumber
+    cpeCustomerName
+    cpeCustomerAddress
+    SaldoUSD
+    cpeCodResponseSunat
+    cpeStatusSunat
+    idStatus
+  }
+}

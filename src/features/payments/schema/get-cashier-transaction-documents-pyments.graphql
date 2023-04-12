@@ -1,0 +1,27 @@
+query GetCashierTransactionDocumentsPyments(
+  $idCashierTransaction: BUFFER!
+  $idOu: BUFFER!
+  $idEntity: BUFFER!
+  $status: String!
+) {
+  getCashierTransactionDocumentsPyments(
+    idCashierTransaction: $idCashierTransaction
+    idOu: $idOu
+    idEntity: $idEntity
+    status: $status
+  ) {
+    idDocument
+    idDocumentType
+    idDocumentTypeName
+    idDocumentItem
+    idCurrency1
+    idStatus
+    idRelatedDocumentTypePayment
+    DocumentTypeTrx
+    date
+    exchangeRate1
+    number
+    description
+    balance1
+  }
+}

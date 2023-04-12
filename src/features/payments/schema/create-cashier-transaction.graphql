@@ -1,0 +1,9 @@
+mutation CreateCashierTransaction(
+  $createCashierTransactionValueInput: CreateCashierTransactionValueInput!
+) {
+  createCashierTransaction(
+    CreateCashierTransactionValueInput: $createCashierTransactionValueInput
+  ) {
+    idCashierTransaction
+  }
+}

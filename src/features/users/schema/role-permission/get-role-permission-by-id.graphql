@@ -1,0 +1,5 @@
+query getRolePermissionById($idRole: BUFFER!, $idPermission: BUFFER!) {
+  getRolePermissionById(idRole: $idRole, idPermission: $idPermission) {
+    ...rolePermissionFullFragment
+  }
+}

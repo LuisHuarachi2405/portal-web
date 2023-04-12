@@ -1,0 +1,14 @@
+query getOuByCode($code: String!) {
+  getOuByCode(code: $code) {
+    idOu
+    code
+    name
+    shortName
+    idEntity
+    idStatus
+    createdAt
+    updatedAt
+    idUserCreate
+    idUserUpdate
+  }
+}

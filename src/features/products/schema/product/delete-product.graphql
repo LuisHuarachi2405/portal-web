@@ -1,0 +1,5 @@
+mutation DeleteProduct($deleteProductId: BUFFER!, $inactiveFlag: Boolean!) {
+  deleteProduct(id: $deleteProductId, inactiveFlag: $inactiveFlag) {
+    idProduct
+  }
+}

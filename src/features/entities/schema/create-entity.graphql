@@ -1,4 +1,4 @@
-mutation CreateEntity($entity: CreateEntityInput!) {
+mutation createEntity($entity: CreateEntityInput!) {
   createEntity(entity: $entity) {
     entity {
       idEntity

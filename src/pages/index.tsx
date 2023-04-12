@@ -1,5 +1,5 @@
-import type { NextPage } from 'next'
 import Box from '@mui/material/Box'
+import type { NextPage } from 'next'
 
 import { useIntl } from '@/shared/hooks/use-intl'
 

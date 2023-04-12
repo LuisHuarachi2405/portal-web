@@ -1,0 +1,10 @@
+query GetProductSubFeatures {
+  productSubFeatures {
+    idProductSubFeature
+    code
+    name
+    shortName
+    idProductSubFeatureType
+    productSubFeatureType
+  }
+}

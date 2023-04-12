@@ -1,0 +1,7 @@
+mutation CreateInstanceInventoryTransaction(
+  $createInventoryTransactionInput: CreateInventoryTransactionInput!
+) {
+  createInventoryTransaction(createInventoryTransactionInput: $createInventoryTransactionInput) {
+    idInventoryTransaction
+  }
+}

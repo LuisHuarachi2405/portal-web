@@ -1,0 +1,15 @@
+mutation CreateAccountingPeriodAnio($accountingPeriodValueInput: AccountingPeriodValueInput!) {
+  createAccountingPeriodAnio(AccountingPeriodValueInput: $accountingPeriodValueInput) {
+    idAccountingPeriod
+    idOu
+    idStatus
+    idUserCreate
+    idUserUpdate
+    idAccountingPeriodType
+    createdAt
+    code
+    dateFrom
+    dateTo
+    updatedAt
+  }
+}

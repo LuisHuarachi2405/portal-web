@@ -1,0 +1,5 @@
+mutation DeleteCashierTransaction($deleteCashierTransaction: DeleteCashierTransactionValueInput!) {
+  deleteCashierTransaction(deleteCashierTransaction: $deleteCashierTransaction) {
+    count
+  }
+}

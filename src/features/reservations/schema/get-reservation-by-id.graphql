@@ -1,0 +1,47 @@
+query reservationById($idReservation: BUFFER!) {
+  reservationById(idReservation: $idReservation) {
+    idReservation
+    idOu
+    idEntity
+    code
+    file
+    group
+    note
+    entryDate
+    idReservationType
+    reservationType
+    passengersQuantity
+    idContact
+    totalPriceUSD
+    totalPricePEN
+    totalPayedUSD
+    totalPayedPEN
+    idStatus
+    idUserCreate
+    createdAt
+    idUserUpdate
+    updatedAt
+    reservationItem {
+      idReservationItem
+      idRelatedReservationItem
+      idOu
+      idReservation
+      item
+      dateStart
+      dateEnd
+      idProduct
+      unitPriceUSD
+      unitPricePEN
+      quantity
+      totalPriceUSD
+      totalPricePEN
+      totalPayedUSD
+      totalPayedPEN
+      idStatus
+      idUserCreate
+      createdAt
+      idUserUpdate
+      updatedAt
+    }
+  }
+}

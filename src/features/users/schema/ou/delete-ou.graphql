@@ -1,0 +1,5 @@
+mutation deleteOu($data: DeleteOuInput!) {
+  deleteOu(data: $data) {
+    ...organizationalUnitsFields
+  }
+}

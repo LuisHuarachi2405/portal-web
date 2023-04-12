@@ -1,0 +1,40 @@
+query productInstances($createProductInstanceInput: CreateProductInstanceInput!) {
+  productInstances(createProductInstanceInput: $createProductInstanceInput) {
+    idProductInstance
+    idOu
+    idProduct
+    idStatus
+    idUserCreate
+    idUserUpdate
+    productSubFeatureItem_productInstance_idProductSubFeatureItem1ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem2ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem3ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem4ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem5ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem6ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem7ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem8ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem9ToproductSubFeatureItem {
+      name
+    }
+    productSubFeatureItem_productInstance_idProductSubFeatureItem10ToproductSubFeatureItem {
+      name
+    }
+  }
+}

@@ -1,0 +1,12 @@
+query getAllUserModules {
+  getAllUserModules {
+    idUser
+    idOu
+    idModule
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

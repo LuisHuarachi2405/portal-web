@@ -1,0 +1,17 @@
+mutation CreateDocument($createDocumentValueInput: CreateDocumentValueInput!) {
+  createDocument(CreateDocumentValueInput: $createDocumentValueInput) {
+    TYPE
+    CODRESPUESTA
+    MENSAJE
+    XML
+    PDF
+    CDR
+    QR
+    TICKET
+    NOMBRE
+    QR_VALOR
+    RGBCOLOR_BACK
+    RGBCOLOR_FORECOLOR
+    idDocument
+  }
+}

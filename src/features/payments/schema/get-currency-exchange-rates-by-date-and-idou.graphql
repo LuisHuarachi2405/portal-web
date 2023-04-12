@@ -1,0 +1,26 @@
+query GetCurrencyExchangeRatesByDateAndIdOu(
+  $idOu: BUFFER!
+  $date: DateTime!
+  $idCurrency1: BUFFER!
+  $idCurrency2: BUFFER!
+) {
+  getCurrencyExchangeRatesByDateAndIdOu(
+    idOu: $idOu
+    date: $date
+    idCurrency1: $idCurrency1
+    idCurrency2: $idCurrency2
+  ) {
+    idCurrencyExchangeRate
+    idOu
+    idCurrency1
+    idCurrency2
+    idStatus
+    idUserCreate
+    idUserUpdate
+    date
+    sellExchangeRate
+    buyExchangeRate
+    createdAt
+    updatedAt
+  }
+}

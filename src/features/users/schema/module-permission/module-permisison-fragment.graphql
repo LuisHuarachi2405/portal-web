@@ -1,0 +1,30 @@
+fragment modulePermissionFullFragment on ModulePermission {
+  idModule
+  idPermission
+  moduleName
+  permissionName
+  ModulePermission
+  idOu
+  idStatus
+  createdAt
+  updatedAt
+  idUserCreate
+  idUserUpdate
+  count {
+    count
+  }
+  permissionsCount {
+    idPermission
+  }
+}
+
+fragment modulePermissionFragment on ModulePermission {
+  idModule
+  idPermission
+  idOu
+  idStatus
+  createdAt
+  updatedAt
+  idUserCreate
+  idUserUpdate
+}

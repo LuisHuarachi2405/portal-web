@@ -1,0 +1,36 @@
+query GetProductInstances($createProductInstanceInput: CreateProductInstanceInput!) {
+  productInstances(createProductInstanceInput: $createProductInstanceInput) {
+    idProductInstance
+
+    productSubFeatureItem1: productSubFeatureItem_productInstance_idProductSubFeatureItem1ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem2: productSubFeatureItem_productInstance_idProductSubFeatureItem2ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem3: productSubFeatureItem_productInstance_idProductSubFeatureItem3ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem4: productSubFeatureItem_productInstance_idProductSubFeatureItem4ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem5: productSubFeatureItem_productInstance_idProductSubFeatureItem5ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem6: productSubFeatureItem_productInstance_idProductSubFeatureItem6ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem7: productSubFeatureItem_productInstance_idProductSubFeatureItem7ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem8: productSubFeatureItem_productInstance_idProductSubFeatureItem8ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem9: productSubFeatureItem_productInstance_idProductSubFeatureItem9ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+    productSubFeatureItem10: productSubFeatureItem_productInstance_idProductSubFeatureItem10ToproductSubFeatureItem {
+      idProductSubFeatureItem
+    }
+  }
+}

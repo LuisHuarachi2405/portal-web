@@ -5,6 +5,9 @@ import { Suspense } from 'react'
 
 import { Spinner } from '@/shared/components/spinner'
 import { useGetEntityQuery } from '@/shared/graphql/generated/entities-api'
+import { ErrorBoundary } from '@/shared/components/error-boundary'
+
+import { EntityContactValues, EntityDirectionValues } from '../types/form.types'
 
 const DynamicEntityForm = dynamic(
   () =>
@@ -21,26 +24,26 @@ export const EditEntityContent: FC = () => {
     query: { paramId },
   } = useRouter()
 
-  const { data, loading, error } = useGetEntityQuery({
+  const { data, loading, error, refetch } = useGetEntityQuery({
     variables: { idEntity: paramId },
     fetchPolicy: 'cache-and-network',
     skip: !paramId,
   })
 
-  if (error) return <p>Error</p>
+  if (error) return <ErrorBoundary retry={refetch} />
 
   if (!data || loading) return <Spinner />
 
   const dataEntity = data.getEntity.entity
 
-  const dataContacts: any = dataEntity.entity_Contact?.map((contact) => ({
+  const dataContacts = dataEntity.entity_Contact?.map((contact) => ({
     ...contact,
     idContactType: contact.contact?.idContactType,
     value: contact.contact?.value,
     idUserCreate: '11110000000000000000000000000000',
   }))
 
-  const dataAddress: any = dataEntity?.entity_Address?.map((address) => ({
+  const dataAddress = dataEntity?.entity_Address?.map((address) => ({
     ...address,
     ...address.address,
   }))
@@ -52,15 +55,31 @@ export const EditEntityContent: FC = () => {
         prevValues={{
           idEntity: dataEntity.idEntity,
           entityType: dataEntity.entity_EntityType?.idEntityType,
-          role: dataEntity.entity_Role?.idRole,
+          role: dataEntity?.entity_Role?.map((role) => role.idRole) ?? [],
           name: dataEntity.name,
           commercialName: dataEntity.commercialName,
-          idEntityIdType: {
-            idEntityIdType: dataEntity.entity_IdType![0].idEntityIdType,
-            value: dataEntity.entity_IdType![0].value,
-          },
-          entityContactValues: dataContacts,
-          entityDirectionValues: dataAddress,
+          idEntityIdType: dataEntity.entity_IdType?.length
+            ? dataEntity.entity_IdType.map((entityIdType) => ({
+                idEntityIdType: entityIdType.idEntityIdType,
+                value: entityIdType.value,
+              }))
+            : [{ idEntityIdType: '', value: '' }],
+          entityContactValues: dataContacts?.length
+            ? (dataContacts as unknown as EntityContactValues[])
+            : ([{ idContactType: '', value: '' }] as unknown as EntityContactValues[]),
+          entityDirectionValues: dataAddress?.length
+            ? (dataAddress as EntityDirectionValues[])
+            : ([
+                {
+                  idCountry: '',
+                  line1: '',
+                  line2: '',
+                  idState: '',
+                  idProvince: '',
+                  postalCode: '',
+                  idAddressType: '',
+                },
+              ] as EntityDirectionValues[]),
           market: dataEntity.idMarket,
           channel: dataEntity.idChannel != null ? dataEntity.idChannel : '',
           industry: dataEntity.idIndustry != null ? dataEntity.idIndustry : '',

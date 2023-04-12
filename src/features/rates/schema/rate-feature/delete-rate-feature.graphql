@@ -1,0 +1,13 @@
+mutation deleteRateFeature($idRateFeature: BUFFER!) {
+  deleteRateFeature(idRateFeature: $idRateFeature) {
+    idRateFeature
+    idOu
+    code
+    name
+    shortName
+    idRateFeatureType
+    idProductCategory
+    idUserCreate
+    idUserUpdate
+  }
+}

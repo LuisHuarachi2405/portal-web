@@ -1,0 +1,12 @@
+query GetProductCategories {
+  productCategories {
+    data {
+      idProductCategory
+      name
+      shortName
+      idCategoryType
+      categoryType
+    }
+    count
+  }
+}

@@ -1,0 +1,12 @@
+mutation createUserModule($data: CreateUserModuleDto!) {
+  createUserModule(data: $data) {
+    idUser
+    idOu
+    idModule
+    idStatus
+    idUserCreate
+    idUserUpdate
+    createdAt
+    updatedAt
+  }
+}

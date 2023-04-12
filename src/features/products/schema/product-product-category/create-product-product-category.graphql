@@ -1,0 +1,10 @@
+mutation CreateProductProductCategory(
+  $createProductProductCategoryInput: CreateProductProductCategoryInput!
+) {
+  createProductProductCategory(
+    createProductProductCategoryInput: $createProductProductCategoryInput
+  ) {
+    idProduct
+    idProductCategory
+  }
+}

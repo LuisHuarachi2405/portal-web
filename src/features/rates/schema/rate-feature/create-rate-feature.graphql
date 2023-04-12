@@ -1,0 +1,13 @@
+mutation createRateFeature($rateFeature: RateFeatureInput!) {
+  createRateFeature(rateFeature: $rateFeature) {
+    idRateFeature
+    idOu
+    code
+    name
+    shortName
+    idRateFeatureType
+    idProductCategory
+    idUserCreate
+    idUserUpdate
+  }
+}

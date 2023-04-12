@@ -1,0 +1,36 @@
+query GetDocumentsPyments(
+  $date: String!
+  $idDocumentTypeName: String!
+  $numDocumento: String!
+  $status: String!
+  $idOu: BUFFER!
+  $idEntity: BUFFER!
+) {
+  getDocumentsPyments(
+    date: $date
+    idDocumentTypeName: $idDocumentTypeName
+    numDocumento: $numDocumento
+    status: $status
+    idOu: $idOu
+    idEntity: $idEntity
+  ) {
+    idDocument
+    idDocumentType
+    idDocumentTypeName
+    idDocumentItem
+    idOu
+    idCurrency1
+    idStatus
+    idDocumentStatementTypeDoc
+    idcurrency2
+    idCurrency3
+    idRelatedDocumentTypePayment
+    exchangeRate3
+    date
+    description
+    number
+    DocumentTypeTrx
+    balance1
+    exchangeRate1
+  }
+}

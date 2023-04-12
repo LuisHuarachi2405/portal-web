@@ -1,0 +1,31 @@
+query GetCashierTransactionById($getCashierTransactionByIdId: BUFFER!) {
+  getCashierTransactionById(id: $getCashierTransactionByIdId) {
+    idCashierTransaction
+    idOu
+    idDailyCashier
+    idEntity
+    idCashierTransactionType
+    idCurrency1
+    idCurrency2
+    idCurrency3
+    idStatus
+    idUserCreate
+    idUserUpdate
+    date
+    dateEntry
+    note
+    amount1
+    credit1
+    debit1
+    exchangeRate1
+    amount2
+    credit2
+    debit2
+    exchangeRate2
+    amount3
+    credit3
+    debit3
+    exchangeRate3
+    updatedAt
+  }
+}

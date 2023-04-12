@@ -25,6 +25,7 @@ import {
 } from '@/shared/graphql/generated/general-parameters-api'
 import { useIntl } from '@/shared/hooks/use-intl'
 import { paths } from '@/shared/routes/paths'
+import { useAuth } from '@/shared/contexts/auth/auth-provider'
 
 import {
   UseGeneralParameterFormExtraProps,
@@ -39,6 +40,8 @@ interface GeneralParametersFormProps extends UseGeneralParameterFormExtraProps {
 
 const GeneralParametersForm: FC<GeneralParametersFormProps> = (props) => {
   const { prevValues, isEditing } = props
+
+  const { user } = useAuth()
 
   const intl = useIntl()
 
@@ -83,6 +86,7 @@ const GeneralParametersForm: FC<GeneralParametersFormProps> = (props) => {
             duration: 2000,
           }
         )
+        debounce(() => router.push(paths.generalParameters.root), 2000)()
       },
     })
 
@@ -98,13 +102,14 @@ const GeneralParametersForm: FC<GeneralParametersFormProps> = (props) => {
             duration: 2000,
           }
         )
+        debounce(() => router.push(paths.generalParameters.root), 2000)()
       },
     })
 
   const onSubmit = async (formData: FormDataGeneralParameters) => {
     try {
       if (isEditing && prevValues?.idGeneralParameter) {
-        const updatedGeneralParameter = await updateGeneralParameter({
+        await updateGeneralParameter({
           variables: {
             updateGeneralParameterInput: {
               idGeneralParameter: prevValues.idGeneralParameter,
@@ -112,7 +117,7 @@ const GeneralParametersForm: FC<GeneralParametersFormProps> = (props) => {
               name: formData.name,
               shortName: formData.shortName,
               code: formData.code,
-              idGeneralParameterValue: formData.parentParameter.value,
+              idGeneralParameterValue: formData.parentParameter?.value || null,
               generalParameterValue: formData.generalParametersValues.map(
                 (generalParameterValue) => ({
                   idOu: generalParameterValue.idOu,
@@ -128,19 +133,18 @@ const GeneralParametersForm: FC<GeneralParametersFormProps> = (props) => {
           },
         })
 
-        if (updatedGeneralParameter.data?.updateGeneralParameter) {
-          debounce(() => router.push(paths.generalParameters.root), 2000)()
-        }
         return
       }
 
-      const newGeneralParameter = await createGeneralParameter({
+      await createGeneralParameter({
         variables: {
           createGeneralParameterInput: {
             name: formData.name,
+            idOu: user?.idOu,
+            idUser: user?.idUser,
             shortName: formData.shortName,
             code: formData.code,
-            idGeneralParameterValue: formData.parentParameter.value,
+            idGeneralParameterValue: formData.parentParameter.value || undefined,
             generalParameterValue: formData.generalParametersValues.map((value) => ({
               name: value.name,
               shortName: value.shortName,
@@ -150,10 +154,6 @@ const GeneralParametersForm: FC<GeneralParametersFormProps> = (props) => {
           },
         },
       })
-
-      if (newGeneralParameter.data?.createGeneralParameter) {
-        debounce(() => router.push(paths.generalParameters.root), 2000)()
-      }
     } catch (error) {
       toast.error(`${error}`, {
         position: 'top-right',
@@ -282,7 +282,7 @@ const GeneralParametersForm: FC<GeneralParametersFormProps> = (props) => {
                     disablePortal
                     id="combo-box-demo"
                     fullWidth
-                    defaultValue={field.value}
+                    defaultValue={field?.value}
                     onInputChange={(_e, newInputValue) => {
                       searchGeneralParameterValue(newInputValue)
                     }}

@@ -1,0 +1,10 @@
+query reservationPassengers($idReservation: BUFFER!) {
+  reservationPassengers(idReservation: $idReservation) {
+    idReservation
+    idPassenger
+    idOu
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

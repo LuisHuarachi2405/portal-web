@@ -1,0 +1,10 @@
+mutation createUserRole($data: CreateUserRoleInput!) {
+  createUserRole(data: $data) {
+    idUser
+    idOu
+    idRole
+    idStatus
+    idUserCreate
+    idUserUpdate
+  }
+}

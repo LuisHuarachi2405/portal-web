@@ -1,0 +1,5 @@
+query getOuById($id: BUFFER!) {
+  getOuById(id: $id) {
+    ...organizationalUnitsFields
+  }
+}

@@ -1,0 +1,5 @@
+mutation DeleteModulePermission($idModule: BUFFER!, $idPermission: BUFFER!) {
+  deleteModulePermission(idModule: $idModule, idPermission: $idPermission) {
+    ...modulePermissionFragment
+  }
+}

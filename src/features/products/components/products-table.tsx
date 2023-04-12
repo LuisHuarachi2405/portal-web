@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import type { FC } from 'react'
+import { FC } from 'react'
+import { useRouter } from 'next/router'
 import { Add } from '@mui/icons-material'
 import { Box, Button, Typography } from '@mui/material'
 
@@ -8,17 +9,54 @@ import { useIntl } from '@/shared/hooks/use-intl'
 import { BreadCrumb } from '@/shared/components/breadcrumb'
 import { ViewLayout } from '@/shared/components/view-layout'
 import { DataTable } from '@/shared/components/data-table/data-table'
+import { useGetProductsQuery } from '@/shared/graphql/generated/products-api'
 
-import { products } from '../data/products.data'
 import { useBuildProductsColumns } from '../hooks/use-build-products-columns'
-import { productsTableBreadcrumbItems } from '../utils/products-breadcrumb-items'
+
+const getBreadcrumbItems = (productId?: string) => {
+  const basePaths = [
+    {
+      name: 'components.sidebar.item.home',
+      href: paths.home,
+    },
+    {
+      name: 'components.sidebar.item.products',
+      href: paths.products.root,
+    },
+  ]
+
+  if (productId) {
+    return basePaths.concat([
+      {
+        name: 'Product',
+        href: paths.products.product.root(productId),
+      },
+      {
+        name: 'Subproducts',
+        href: paths.products.product.subproducts.root(productId),
+      },
+    ])
+  }
+
+  return basePaths
+}
 
 export const ProductsTable: FC = () => {
   const intl = useIntl()
+  const router = useRouter()
+  const { productId } = router.query as { productId: string | undefined }
 
   const { columns } = useBuildProductsColumns()
+  const { data, loading, error } = useGetProductsQuery({
+    variables: {
+      productsId: productId ?? '',
+    },
+    fetchPolicy: 'cache-and-network',
+  })
 
-  const rows = products
+  const rows = data?.products ?? []
+
+  if (error) return <p>Error</p>
 
   return (
     <ViewLayout>
@@ -26,12 +64,18 @@ export const ProductsTable: FC = () => {
         <Box display="flex" alignItems="flex-start" justifyContent="space-between">
           <Box display="grid" gap="16px">
             <Typography variant="h5" fontWeight={700}>
-              {intl.formatMessage('pages.products.title')}
+              {productId ? 'Subproducts' : 'Products'}
             </Typography>
-            <BreadCrumb items={productsTableBreadcrumbItems} />
+            <BreadCrumb items={getBreadcrumbItems(productId)} />
           </Box>
           <div>
-            <Link href={paths.products.create}>
+            <Link
+              href={
+                productId
+                  ? paths.products.product.subproducts.create(productId)
+                  : paths.products.create
+              }
+            >
               <Button
                 component="a"
                 variant="contained"
@@ -48,7 +92,7 @@ export const ProductsTable: FC = () => {
         <DataTable
           rows={rows}
           columns={columns}
-          // loading={loading}
+          loading={loading}
           getRowId={(row) => row.idProduct}
         />
       </Box>

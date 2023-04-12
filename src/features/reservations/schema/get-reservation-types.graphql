@@ -1,0 +1,10 @@
+query GetReservationTypes {
+  getGeneralParametersByCode(code: "RESTIP") {
+    idGeneralParameter
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      name
+    }
+  }
+}
