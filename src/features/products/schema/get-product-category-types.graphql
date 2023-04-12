@@ -1,0 +1,10 @@
+query GetProductCategoryTypes {
+  getGeneralParametersByCode(code: "PROCAT") {
+    idGeneralParameter
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      name
+    }
+  }
+}

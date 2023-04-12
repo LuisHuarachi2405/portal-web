@@ -1,0 +1,8 @@
+query GetProductCategories {
+  productCategories {
+    idProductCategory
+    name
+    shortName
+    idCategoryType
+  }
+}

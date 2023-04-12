@@ -1,0 +1,5 @@
+query getGeneralParameterValueById($idGeneralParameterValue: BUFFER!) {
+  getGeneralParameterValueById(idGeneralParameterValue: $idGeneralParameterValue) {
+    ...generalParameterValueFields
+  }
+}

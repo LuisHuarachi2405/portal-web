@@ -1,0 +1,5 @@
+query getGeneralParameterValueByArgs($userInput: String!, $limit: Int) {
+  getGeneralParameterValueByArgs(userInput: $userInput, limit: $limit) {
+    ...generalParameterValueFields
+  }
+}

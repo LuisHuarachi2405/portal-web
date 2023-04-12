@@ -1,0 +1,5 @@
+mutation deleteGeneralParameter($id: BUFFER!) {
+  deleteGeneralParameter(id: $id) {
+    ...generalParameterFields
+  }
+}

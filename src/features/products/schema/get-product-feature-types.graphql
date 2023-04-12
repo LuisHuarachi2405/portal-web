@@ -1,0 +1,10 @@
+query GetProductFeatureTypes {
+  getGeneralParametersByCode(code: "PROCAR") {
+    idGeneralParameter
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      name
+    }
+  }
+}

@@ -1,0 +1,5 @@
+query getGeneralParametersByCode($code: String!) {
+  getGeneralParametersByCode(code: $code) {
+    ...generalParameterFields
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "root": true,
+  "plugins": ["react"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
+    "plugin:react/jsx-runtime",
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.eslint.json"
+  },
+  "rules": {
+    "no-console": "error",
+    "no-unused-vars": "off",
+    "react/prop-types": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "react/require-default-props": ["error", { "ignoreFunctionalComponents": true }],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "warnOnUnassignedImports": true,
+        "groups": ["builtin", "external", "internal", "sibling"],
+        "pathGroups": [{ "pattern": "@/**", "group": "internal" }]
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ]
+  }
+}

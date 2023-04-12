@@ -1,0 +1,37 @@
+schema: ${NEXT_PUBLIC_API_URL}
+generates:
+  ./src/shared/graphql/generated/products-api.tsx:
+    documents: ./src/features/products/**/*.graphql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+  # ./src/shared/graphql/generated/general-parameters-api.tsx:
+  #   documents: ./src/features/general-parameters/**/*.graphql
+  #   plugins:
+  #     - typescript
+  #     - typescript-operations
+  #     - typescript-react-apollo
+  #   config:
+  #     withHooks: true
+
+  # ./src/shared/graphql/generated/general-parameters-api.tsx:
+  #   schema: ${GENERAL_PARAMETERS_API_URL}
+  #   documents: ./src/features/general-parameters/**/*.graphql
+  #   plugins:
+  #     - typescript
+  #     - typescript-operations
+  #     - typescript-react-apollo
+  #   config:
+  #     withHooks: true
+
+  # ./src/shared/graphql/generated/entities-api.tsx:
+  #   documents: ./src/features/entities/**/*.graphql
+  #   plugins:
+  #     - typescript
+  #     - typescript-operations
+  #     - typescript-react-apollo
+  #   config:
+  #     withHooks: true

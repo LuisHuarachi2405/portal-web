@@ -1,0 +1,10 @@
+query GetProductSubfeatureTypes {
+  getGeneralParametersByCode(code: "PROSCA") {
+    idGeneralParameter
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      name
+    }
+  }
+}

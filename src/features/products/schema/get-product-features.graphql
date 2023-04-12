@@ -1,0 +1,9 @@
+query GetProductFeatures {
+  productFeatures {
+    idProductFeature
+    name
+    shortName
+    idProductCategory
+    idProductFeatureType
+  }
+}

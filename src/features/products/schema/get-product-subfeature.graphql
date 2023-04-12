@@ -1,0 +1,17 @@
+query GetProductSubFeature($productSubFeatureId: BUFFER!) {
+  productSubFeature(id: $productSubFeatureId) {
+    idProductSubFeature
+    code
+    name
+    shortName
+    idProductSubFeatureType
+    productSubFeatureItem {
+      idProductSubFeatureItem
+      code
+      name
+      shortName
+      value
+      idProductSubFeatureItemType
+    }
+  }
+}

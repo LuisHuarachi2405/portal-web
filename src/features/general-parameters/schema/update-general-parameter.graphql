@@ -1,0 +1,5 @@
+mutation updateGeneralParameter($updateGeneralParameterInput: UpdateGeneralParameterInput!) {
+  updateGeneralParameter(updateGeneralParameterInput: $updateGeneralParameterInput) {
+    ...generalParameterFields
+  }
+}

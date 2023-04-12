@@ -1,0 +1,5 @@
+query getGeneralParameters {
+  generalParameters {
+    ...generalParameterFields
+  }
+}

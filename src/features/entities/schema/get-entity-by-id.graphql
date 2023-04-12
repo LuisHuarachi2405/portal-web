@@ -1,0 +1,116 @@
+query GetEntity($idEntity: BUFFER!) {
+  getEntity(idEntity: $idEntity) {
+    entity {
+      idEntity
+      idOu
+      commercialName
+      name
+      idCountry
+      idBusinessType
+      idMarket
+      idChannel
+      idIndustry
+      idStatus
+      idUserCreate
+      idUserUpdate
+      createdAt
+      updatedAt
+      entity_Contact {
+        idEntity
+        idOu
+        idContact
+        idStatus
+        idUserCreate
+        createdAt
+        idUserUpdate
+        updatedAt
+        contact {
+          idContact
+          idOu
+          idEntity
+          value
+          idContactType
+          idStatus
+          idUserCreate
+          createdAt
+          idUserUpdate
+          updatedAt
+        }
+      }
+      entity_Address {
+        idEntity
+        idOu
+        idAddress
+        idStatus
+        idUserCreate
+        createdAt
+        idUserUpdate
+        updatedAt
+        address {
+          idAddress
+          idOu
+          line1
+          line2
+          line3
+          idProvince
+          idState
+          postalCode
+          idCountry
+          others
+          idAddressType
+          defaultFlag
+          createdAt
+          idStatus
+          idUserCreate
+          updatedAt
+          idUserUpdate
+        }
+      }
+      entity_EntityType {
+        idEntity
+        idOu
+        idEntityType
+        idStatus
+        idUserCreate
+        idUserUpdate
+        createdAt
+        updatedAt
+      }
+      entity_IdType {
+        idEntityIdType
+        idOu
+        idEntity
+        value
+        idStatus
+        idUserCreate
+        createdAt
+        idUserUpdate
+        updatedAt
+      }
+      entity_Role {
+        idEntity
+        idOu
+        idRole
+        idStatus
+        idUserCreate
+        createdAt
+        idUserUpdate
+        updatedAt
+      }
+      entityIdType {
+        idGeneralParameterValue
+        idOu
+        name
+        shortName
+        code
+        value
+        type
+        idStatus
+        idGeneralParameterType
+        idGeneralParameter
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

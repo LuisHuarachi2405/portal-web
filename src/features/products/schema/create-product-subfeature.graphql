@@ -1,0 +1,5 @@
+mutation CreateProductSubFeature($createProductSubFeatureInput: CreateProductSubFeatureInput!) {
+  createProductSubFeature(createProductSubFeatureInput: $createProductSubFeatureInput) {
+    idProductSubFeature
+  }
+}

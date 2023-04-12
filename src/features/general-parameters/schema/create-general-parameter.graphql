@@ -1,0 +1,5 @@
+mutation createGeneralParameter($createGeneralParameterInput: CreateGeneralParameterInput!) {
+  createGeneralParameter(createGeneralParameterInput: $createGeneralParameterInput) {
+    ...generalParameterFields
+  }
+}

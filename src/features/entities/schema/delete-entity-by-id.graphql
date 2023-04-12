@@ -1,0 +1,20 @@
+mutation DeleteEntity($idEntity: BUFFER!) {
+  deleteEntity(idEntity: $idEntity) {
+    result {
+      idEntity
+      idOu
+      commercialName
+      name
+      idCountry
+      idBusinessType
+      idMarket
+      idChannel
+      idIndustry
+      idStatus
+      idUserCreate
+      createdAt
+      idUserUpdate
+      updatedAt
+    }
+  }
+}

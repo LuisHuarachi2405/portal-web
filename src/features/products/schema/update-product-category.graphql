@@ -1,0 +1,8 @@
+mutation UpdateProductCategory($updateProductCategoryInput: UpdateProductCategoryInput!) {
+  updateProductCategory(updateProductCategoryInput: $updateProductCategoryInput) {
+    idProductCategory
+    name
+    shortName
+    idCategoryType
+  }
+}

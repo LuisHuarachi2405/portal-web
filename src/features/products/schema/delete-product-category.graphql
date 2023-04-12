@@ -1,0 +1,5 @@
+mutation DeleteProductCategory($deleteProductCategoryId: BUFFER!) {
+  deleteProductCategory(id: $deleteProductCategoryId) {
+    idProductCategory
+  }
+}

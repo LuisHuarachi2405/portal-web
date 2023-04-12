@@ -1,0 +1,9 @@
+query GetProductSubFeatures {
+  topLevelProductSubFeatures {
+    idProductSubFeature
+    code
+    name
+    shortName
+    idProductSubFeatureType
+  }
+}

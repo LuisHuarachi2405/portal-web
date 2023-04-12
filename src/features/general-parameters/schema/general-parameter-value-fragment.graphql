@@ -1,0 +1,16 @@
+fragment generalParameterValueFields on GeneralParameterValue {
+  idGeneralParameterValue
+  idGeneralParameter
+  idGeneralParameterType
+  idOu
+  idStatus
+  name
+  shortName
+  code
+  value
+  type
+  idUserCreate
+  idUserUpdate
+  createdAt
+  updatedAt
+}

@@ -1,0 +1,5 @@
+query getGeneralParameterById($id: BUFFER!) {
+  getGeneralParameterById(id: $id) {
+    ...generalParameterFields
+  }
+}

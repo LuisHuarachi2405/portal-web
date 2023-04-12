@@ -1,0 +1,10 @@
+query GetProductSubfeatureItemTypes {
+  getGeneralParametersByCode(code: "PROISC") {
+    idGeneralParameter
+    name
+    generalParameterValue {
+      idGeneralParameterValue
+      name
+    }
+  }
+}

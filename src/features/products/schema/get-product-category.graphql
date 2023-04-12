@@ -1,0 +1,8 @@
+query GetProductCategory($productCategoryId: BUFFER!) {
+  productCategory(id: $productCategoryId) {
+    idProductCategory
+    name
+    shortName
+    idCategoryType
+  }
+}

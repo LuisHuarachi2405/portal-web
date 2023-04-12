@@ -1,0 +1,20 @@
+mutation UpdateEntity($updateEntityInput: UpdateEntityInput!) {
+  updateEntity(updateEntityInput: $updateEntityInput) {
+    result {
+      idEntity
+      idOu
+      commercialName
+      name
+      idCountry
+      idBusinessType
+      idMarket
+      idChannel
+      idIndustry
+      idStatus
+      idUserCreate
+      idUserUpdate
+      createdAt
+      updatedAt
+    }
+  }
+}
